@@ -13,7 +13,7 @@ class CustomerController{
 
 		$uid = User::signUp($info);
 
-		if(F3::get('POST.mobile') != false){
+		if(F3::get('GET.mobile') != false){
 			// WEB客户端
 			if($uid != -1){
 				F3::reroute('/');
@@ -24,6 +24,13 @@ class CustomerController{
 			// Mobile客户端
 			echo $uid;
 		}
+	}
+
+	function showLoginPage(){
+		F3::set('title',"登录");
+		F3::set('login_status','');
+		F3::set('error_display','none');
+		echo Template::serve('login.html');
 	}
 
 	function login(){

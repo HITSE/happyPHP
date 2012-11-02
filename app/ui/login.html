@@ -24,43 +24,44 @@
 	<![endif]-->
 </head>
 <body>
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<a class="brand" href="">HappyQueuing</a>
-			<div class="nav-collapse collapse">
-				<ul class="nav">
-					<li class="active"><a href="#">首页</a></li>
-					<li><a href="queue.php">我要排队</a></li>
-					<li><a href="restaurant.php">餐厅管理</a></li>
-					<li><a href="about.php">关于我们</a></li>
-				</ul>
+	<div class="container">
+		<article class="row">
+			<div class="span7 offset2">
+				<form class="well form-horizontal" action="" method="post">
+
+					<h1 class="offset1">Happy&nbsp;&nbsp;Queue</h1>
+
+					<div class="control-group {{@login_status}}">
+						<label class="control-label">用户名</label>
+						<div class="controls">
+							<input name="uname"  type="text" class="span3" placeholder="请输入登录用户名" required>
+						</div>
+					</div>
+
+					<div class="control-group {{@login_status}}">
+						<label class="control-label">密码</label>
+						<div class="controls">
+							<input name="upass" type="password" class="span3" placeholder="请输入登录密码" required>
+							<span class="help-inline" style="display:{{@error_display}}">用户名或密码输入错误</span>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div id="ie6-bug-aaaa" class="controls btn-groups">
+							<button type="submit" class="btn btn-primary">登录</button>
+							<button type="reset" class="btn">重填</button>
+						</div>
+					<div>
+				</form>
 			</div>
-		</div>
-	</div>
-</div>
+		</article>
+	</div><!-- Container -->
 
+	<footer style="width:100%;background: #F1F1F1;margin-top: 10px;padding: 20px 0;position:fixed;bottom:0px">
+		<p style="text-align:center;padding-top:15px;">Copyright 2012&copy; PureWeber.com</p>
+	</footer>
 
-<!-- content -->
-<div class="container" style="margin-top:60px">
-	<div class='hero-unit'>
-		<h1>排队也快乐！</h1>
-		<p>你还在为排队而烦躁吗？你还在为有人插队而无限苦恼吗？那么你的福音到了！</p>
-		<p>只需下载一个小小的软件，让你从此排队也快乐！</p>
-		<p><a class="btn btn-success btn-large">点此下载</a></p>
-	</div>
-	
-<div class="row">
-	<div class="span4">
-		<p>不知道说点什么好</p>
-		<p><a href="####" class="btn">点点看</a></p>
-	<div>
-</div>
-
-
-</div>
-<!-- content -->
-
+	<script type="text/javascript"> $(function(){if($.browser.msie&&parseInt($.browser.version,10)===6){$('.row div[class^="span"]:last-child').addClass("last-child");$('[class="span"]').addClass("margin-left-20");$(':button[class="btn"], :reset[class="btn"], :submit[class="btn"], input[type="button"]').addClass("button-reset");$(":checkbox").addClass("input-checkbox");$('[class^="icon-"], [class=" icon-"]').addClass("icon-sprite");$(".pagination li:first-child a").addClass("pagination-first-child")}}) </script>
 </body>
 </html>
 
