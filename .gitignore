@@ -1,8 +1,8 @@
 static/font-awesome
 temp
 cache
-*.swp
-*.swo
+.*.swp
+.*.swo
 db_bak
 avatar
 

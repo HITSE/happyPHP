@@ -1,0 +1,50 @@
+<F3:include href="common/header.html" />
+
+
+	<div class="container">
+		<div class="row">
+			<div class="span7 offset2">
+
+			<F3:repeat group="{{@all}}" value="{{@p}}">
+			<div id="{{@p.capacity}}">
+				<h3>{{@p.capacity}}人桌</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>排队时间</th>
+							<th>人数</th>
+							<th>手机号码</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					<F3:repeat group="{{@p.customer}}" value="{{@v}}" counter="{{@c}}">
+						<tr>
+							<td>{{@c}}</td>
+							<td>{{@v.time}}</td>
+							<td>{{@v.num}}</td>
+							<td>{{@v.phone}}</td>
+							<td>
+								<a style="{{ @v.status == 'queuing' ? '' : 'display:none'}}" href="{{@WEB_ROOT}}admin/notify?id={{@v.phone}}" class="btn btn-primary">通知</a>
+								<a style="{{ @v.status == 'smsed' ? '' : 'display:none'}}" href="{{@WEB_ROOT}}admin/arrive?id={{@v.phone}}" class="btn btn-success">到达</a>
+							</td>
+						</tr>
+					</F3:repeat>
+					</tbody>
+				</table>
+			</div>
+			<hr/>
+			</F3:repeat>
+
+
+<!-- 分页 -->
+{{@pagination}}
+<!-- end of 分页 -->
+
+
+			</div>
+		</div>
+	</div><!-- Container -->
+
+<F3:include href="common/footer.html" />

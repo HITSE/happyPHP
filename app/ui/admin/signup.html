@@ -1,0 +1,65 @@
+<F3:include href="common/header.html" />
+
+	<div class="container">
+		<div class="row">
+			<div class="span7 offset2">
+				<form class="form-horizontal" action="{{@WEB_ROOT}}admin/signup" method="post">
+
+					<h2 style="display:inline">注册餐馆</h2>
+
+<!------------------------------------------------>
+	<div class="control-group">
+		<label class="control-label">文本内容</label>
+		<div class="controls">
+			<input class="input-xlarge" id="content" name="" type="text" class="span3" >
+		</div>
+	</div>
+
+	<div style="display:none" class="control-group">
+		<label class="control-label">附加信息</label>
+		<div class="controls">
+			<input class="input-xlarge" id="comment" name="duser" type="text" class="span3" >
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">数值a</label>
+		<div class="controls">
+			<input class="input-xlarge " id="min" name="duser" type="text" class="span3" >
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label">数值b</label>
+		<div class="controls">
+			<input class="input-xlarge " id="max" name="duser" type="text" class="span3" >
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label">数字类型</label>
+		<div class="controls">
+			<select name="" id="type">
+<F3:repeat group="{{@num_type}}" value="{{@v}}" key="{{@id}}">
+				<option value="{{@id}}">{{@v}}</option>
+</F3:repeat>
+			</select>
+		</div>
+	</div>
+
+<!------------------------------------------------>
+
+					<!-- 提交按扭 -->
+					<div class="form-actions">
+						<div class="controls btn-groups">
+							<button type="submit" class="btn btn-primary">保存</button>
+							<!--<a class="btn btn-danger" href="{{@WEB_ROOT}}device/detail?did={{@did}}">返回</a>-->
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+		</div>
+	</div><!-- Container -->
+
+<F3:include href="common/footer.html" />

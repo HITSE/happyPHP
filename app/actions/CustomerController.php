@@ -1,54 +1,50 @@
 <?php
 
 class CustomerController{
+
 	function __construct(){
-
-	}
-
-	function signUp(){
-		$info = array();
-		$info['name'] = F3::get('POST.uname');
-		$info['pass'] = F3::get('POST.upass');
-		$info['phone'] = F3::get('POST.uphone');
-
-		$uid = User::signUp($info);
-
-		if(F3::get('GET.mobile') != false){
-			// WEB客户端
-			if($uid != -1){
-				F3::reroute('/');
-			}else{
-				F3::reroute('/signup');
-			}
+		if(User::is_login()){
+			F3::set("login", "true");
 		}else{
-			// Mobile客户端
-			echo $uid;
+			F3::reroute('/login');
 		}
 	}
 
-	function showLoginPage(){
-		F3::set('title',"登录");
-		F3::set('login_status','');
-		F3::set('error_display','none');
-		echo Template::serve('login.html');
+	function showRestaurantDetail(){
+		$id = F3::get("GET.id");
+		$r = array(
+			"id" => 2,
+			"name" => "永福小吃",
+			"describe" => "very good",
+			"num" => 2,
+			"time" => "20min",
+			"phone" => "18009872637",
+			"addr" => "where"
+		);
+		F3::set("r", $r);
+		echo Template::serve('user/detail.html');
 	}
 
-	function login(){
-		F3::set('title',"登录");
-		$user = User::valid(F3::get('POST.uname'), F3::get('POST.upass'));
-		if($user != false){ //login success
-			User::login($user);
-			F3::reroute('/');
-		} else {
-			F3::set('login_status','error');
-			F3::set('error_display','inline-block');
-			echo Template::serve('login.html');
-		}
+	function listAllRestaurant(){
+		$all = array(
+			array(
+				"id" => 1,
+				"name" => "test",
+				"num" => 2,
+				"time" => "20min"
+			),
+			array(
+				"id" => 1,
+				"name" => "kjak",
+				"num" => 4,
+				"time" => "20min"
+			)
+		);
+
+		F3::set("all",$all);
+		//$pagination = Sys::pagination(
+		echo Template::serve('user/listall.html');
 	}
 
-	function logout(){
-		Account::logout();
-		F3::reroute('/');
-	}
 
 }

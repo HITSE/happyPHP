@@ -5,6 +5,23 @@ class User{
 
 	//根据info数组插入数据表,并执行登录操作
 	static function signUp($info){
+		//var_dump($info);
+		$r = DB::sql("INSERT INTO user VALUES ('', :uname, :upass);",
+			array( ':uname' => $info['name'], ':upass' => $info['pass'])
+		);
+		$uid = DB::get_insert_id();
+
+		if($info['type'] == 1){//admin
+			$r = DB::sql("INSERT INTO admin VALUES (:uid, :rid);",
+				array( ':uid' => $uid, ':rid' => '0')
+			);
+		}else{// customer
+			$r = DB::sql("INSERT INTO customer VALUES (:phone, :point, :uid);",
+				array(':phone' => $info['phone'] , ':point' => '0', ':uid' => $uid)
+			);
+		}
+		self::login(array('uid' => $uid, 'name' => $info['name']));
+		return $uid;
 	}
 
 	static function valid($uname, $upass){
@@ -15,8 +32,8 @@ class User{
 			return false;
 		}
 
-		$r = DB::sql('SELECT * FROM users WHERE name = :uname AND pass = :upass', array(
-			':uname' => $uname, ':upass' => $upass
+		$r = DB::sql('SELECT * FROM user WHERE name = :uname AND passwd = :upass', 
+			array( ':uname' => $uname, ':upass' => $upass
 		));
 
 		if( count($r) > 0 ){
@@ -28,34 +45,41 @@ class User{
 
 	static function login($user){
 		setcookie('se_user_id', $user['uid']);
-		setcookie('se_user_name', $user['uname']);
+		setcookie('se_user_name', $user['name']);
 		setcookie('se_user_token', self::generate_login_token($user['uid']));
 
-		$user = self::id_admin($user['uid']);
-		if($user != false)
-			setcookie('se_user_admin', $user['restaurant']);
+		//Code::dump($user);
+
+		$rid = self::is_admin($user['uid']);
+		if($rid !== false)
+			setcookie('se_user_admin', $rid);
 	}
 
 	static function logout(){
 		setcookie('se_user_id', '', time() - 86400);
 		setcookie('se_user_name',  '', time() - 86400);
 		setcookie('se_user_token',  '', time() - 86400);
-		//setcookie('se_user_admin',  '', time() - 86400);
+		setcookie('se_user_admin',  '', time() - 86400);
 	}
 
-	// 判断是否是管理员用户，如果是餐厅管理员，则返回其管理的餐厅的id ，否则返回false
-	static function is_admin(){
+	// 判断是否是管理员用户，如果是餐厅管理员，
+	// 则返回其管理的餐厅的id ，否则返回false
+	static function is_admin($uid = 0){
+		//if(!self::is_login()) return false;
+
+		$cookie = F3::get('COOKIE');
+		if(isset($cookie['se_user_id']))
+			$uid = $cookie['se_user_id'];
+
+		$r = DB::sql('SELECT * FROM admin WHERE uid = :uid', 
+			array( ':uid' => $uid));
+
+		//var_dump($r);
+		if( count($r) > 0 )
+			return $r[0]['rid'];
+		else
+			return false;
 	}
-
-
-
-
-
-
-
-
-
-
 
 
 	static function is_login(){
@@ -70,10 +94,6 @@ class User{
 			return false;
 		}
 	}
-
-
-
-
 
 
 	static function generate_login_token($uid){

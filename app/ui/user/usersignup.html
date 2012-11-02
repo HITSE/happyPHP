@@ -5,7 +5,7 @@
 			<div class="span7 offset2">
 				<form class="form-horizontal" action="" method="post">
 
-					<h3>添加新用户</h3>
+					<h3>新用户注册</h3>
 
 		<F3:check if="{{@has_submit}}">
 			<F3:check if="{{@success}}">
@@ -25,9 +25,9 @@
 		</F3:check>
 
 					<div class="control-group">
-						<label class="control-label">用户名</label>
+						<label class="control-label">手机号码</label>
 						<div class="controls">
-							<input name="uname"  type="text" class="span3" maxlength="12" placeholder="请输入登录用户名" required>
+							<input name="uphone"  type="text" class="span3" maxlength="12" placeholder="请输入您的手机号码" required>
 						</div>
 					</div>
 
@@ -45,19 +45,20 @@
 						</div>
 					</div>
 
+
 					<div class="control-group">
-						<label class="control-label">用户组</label>
+						<label class="control-label">用户类型</label>
 						<div class="controls">
 							<select name="ugroup">
 								<option value="2">普通用户</option>
-								<option value="1">高级用户</option>
+								<option value="1">管理用户</option>
 							</select>
 						</div>
 					</div>
 
 					<div class="form-actions">
 						<div class="controls btn-groups">
-							<button type="submit" class="btn btn-primary">添加用户</button>
+							<button type="submit" class="btn btn-primary">提交</button>
 							<button type="reset" class="btn">重填</button>
 						</div>
 					</div>

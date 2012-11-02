@@ -17,17 +17,19 @@
 						<tr>
 							<th>序号</th>
 							<th>餐厅名</th>
-							<!--<th>所属组</th>-->
 							<th>当前排队人数</th>
+							<th>排队预估时间</th>
 						</tr>
 					</thead>
 					<tbody>
 					<F3:repeat group="{{@all}}" value="{{@v}}" counter="{{@c}}">
 						<tr>
-							<td class="" style="display:none">{{@v.id}}</td>
 							<td>{{@c}}</td>
-							<td class="name">{{@v.name}}</td>
+							<td class="name">
+								<a href="{{@WEB_ROOT}}user/show?id={{@v.id}}">{{@v.name}}</a>
+							</td>
 							<td>{{@v.num}}</td>
+							<td>{{@v.time}}</td>
 						</tr>
 					</F3:repeat>
 					</tbody>
