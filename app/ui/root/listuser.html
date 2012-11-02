@@ -1,0 +1,202 @@
+<F3:include href="common/header.html" />
+
+	<script type="text/javascript" src="{{@WEB_ROOT}}static/bootstrap/js/bootstrap-modal.js"></script>
+	<script>
+		$(function(){
+			$(".change-group").click(function(){
+				var uname = $(this).parent().parent().children(".uname").html();
+				$(".modal #change-group-uname").html(uname);
+				var uid = $(this).parent().parent().children(".uid").html();
+				$(".modal #change-group-uid").val(uid);
+
+				$("#change-group-modal").modal();
+			});
+
+			$(".change-pass").click(function(){
+				var uname = $(this).parent().parent().children(".uname").html();
+				$(".modal #change-pass-uname").html(uname);
+				var uid = $(this).parent().parent().children(".uid").html();
+				$(".modal #change-pass-uid").val(uid);
+
+				$("#change-pass-modal").modal();
+			})
+
+			$(".del-user").click(function(){
+				var uname = $(this).parent().parent().children(".uname").html();
+				$(".modal #del-uname").html(uname);
+				var uid = $(this).parent().parent().children(".uid").html();
+				$(".modal #del-uid").val(uid);
+
+				$("#del-modal").modal();
+			})
+		})
+	</script>
+
+	<!-- MODAL -->
+	<div class="modal hide" id="change-group-modal">
+		<form class="form-horizontal" action="resetgroup" method="get">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>修改所属组</h3>
+			</div>
+			<div class="modal-body">
+				<div class="control-group">
+					<label class="control-label">用户名</label>
+					<div class="controls">
+						<span class="span3 uneditable-input" id="change-group-uname"></span>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">用户组</label>
+					<div class="controls">
+						<select name="ugroup">
+							<option value="2">普通用户</option>
+							<option value="1">高级用户</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="{{@WEB_ROOT}}user/list/?ugroup={{@GET.ugroup}}&&uname={{@GET.uname}}" class="btn">取消修改</a>
+				<button type="submit" class="btn btn-primary">提交修改</button>
+			</div>
+			<input type="hidden" name="uid" id="change-group-uid">
+			<input type="hidden" name="show_group" value="{{@GET.ugroup}}">
+			<input type="hidden" name="show_uname" value="{{@GET.uname}}">
+		</form>
+	</div>
+
+	<!-- MODAL -->
+
+	<div class="modal hide" id="change-pass-modal">
+		<form class="form-horizontal" action="resetpass" method="post">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>重置密码</h3>
+			</div>
+			<div class="modal-body">
+				<div class="control-group">
+					<label class="control-label">用户名</label>
+					<div class="controls">
+						<span class="span3 uneditable-input" id="change-pass-uname"></span>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">密码</label>
+					<div class="controls">
+						<input name="upass" type="password" class="span3" maxlength="32" value="" placeholder="请输入新的登录密码" required>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<a href="{{@WEB_ROOT}}user/list/?ugroup={{@GET.ugroup}}&&uname={{@GET.uname}}" class="btn">取消修改</a>
+				<button type="submit" class="btn btn-primary">提交修改</button>
+			</div>
+			<input type="hidden" name="uid" id="change-pass-uid">
+			<input type="hidden" name="show_group" value="{{@GET.ugroup}}">
+			<input type="hidden" name="show_uname" value="{{@GET.uname}}">
+		</form>
+	</div>
+
+	<div class="modal hide" id="del-modal">
+		<form class="form-horizontal" action="del" method="get">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>删除用户</h3>
+			</div>
+			<div class="modal-body">
+				<p>确定要删除用户<strong id="del-uname"></strong>吗？</p>
+				<p>此操作不可恢复<p>
+			</div>
+			<div class="modal-footer">
+				<div style="display:inline">
+					<a href="{{@WEB_ROOT}}user/list/?ugroup={{@GET.ugroup}}&&uname={{@GET.uname}}" class="btn btn-info">取消修改</a>
+				</div>
+				<button type="submit" class="btn btn-primary">确定删除</button>
+			</div>
+			<input type="hidden" name="uid" id="del-uid">
+			<input type="hidden" name="show_group" value="{{@GET.ugroup}}">
+		</form>
+	</div>
+	<!-- END OF MODAL -->
+
+	<div class="container">
+		<div class="row">
+			<div class="span7 offset2">
+				<div style="position:relative;zoom:1">
+					<h3>{{@list_title}}</h3>
+					<h4 style="position:absolute; text-align:right; right:0; bottom:0">
+					<a class="btn btn-inverse" href="{{@WEB_ROOT}}user/list?ugroup=-1">所有用户</a>
+					<span class="badge badge-info">{{@cnt_user+@cnt_admin}}</span>&nbsp;&nbsp;
+					<a class="btn btn-inverse" href="{{@WEB_ROOT}}user/list?ugroup=2">普通用户</a>
+					<span class="badge badge-warning">{{@cnt_user}}</span>&nbsp;&nbsp;
+					<a class="btn btn-inverse" href="{{@WEB_ROOT}}user/list?ugroup=1">高级用户</a>
+					<span class="badge badge-important">{{@cnt_admin}}</span></h4>
+				</div>
+	<F3:check if="{{@GET.has_submit}}">
+		<F3:check if="{{@GET.success}}">
+			<F3:true>
+				<div class="alert alert-success" style="display:">
+					<button class="close" data-dismiss="alert">&times;</button>
+					<h4 class="alert-heading">操作成功！</h4>
+			</F3:true>
+			<F3:false>
+				<div class="alert alert-error">
+					<button class="close" data-dismiss="alert">&times;</button>
+					<h4 class="alert-heading">操作失败！</h4>
+			</F3:false>
+		</F3:check>
+					<p>{{@GET.msg}}</p>
+				</div>
+	</F3:check>
+				<form class="form-inline well" method="get" action="">
+					<strong> 根据用户名查找: </strong>
+						<!--[if IE 6]>
+							<div style="">
+						<![endif]-->
+					<input name="uname" type="text" class="span3" placeholder="请输入用户名">
+						<!--[if IE 6]>
+							</div>
+						<![endif]-->
+					<button type="submit" class="btn">查找</button>
+				</form>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>用户名</th>
+							<th>所属组</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					<F3:repeat group="{{@DB->result}}" value="{{@v}}" counter="{{@c}}">
+						<tr>
+							<td class="uid" style="display:none">{{@v.uid}}</td>
+							<td>{{@c}}</td>
+							<td class="uname">{{@v.uname}}</td>
+							<td>{{@group_show(@v.ugroup)}}</td>
+							<td>
+								<button class="btn btn-success change-group">修改所属组</button>
+								<button class="btn btn-primary change-pass">重置密码</button>
+								<button class="btn btn-danger del-user">删除用户</button>
+							</td>
+						</tr>
+					</F3:repeat>
+					</tbody>
+				</table>
+
+<!-- 分页 -->
+{{@pagination}}
+<!-- end of 分页 -->
+
+
+			</div>
+		</div>
+	</div><!-- Container -->
+
+<F3:include href="common/footer.html" />

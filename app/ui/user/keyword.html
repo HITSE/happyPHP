@@ -1,0 +1,54 @@
+<F3:include href="common/header.html" />
+<style>
+	.result h4{color:#00c}
+	.result hr{margin-left:-30px}
+</style>
+<script type="text/javascript">
+
+		function keyWordSearch(event){
+			event.preventDefault();
+			if($.trim($('#key_word').val()) == "")
+				return;
+			$.post('{{@WEB_ROOT}}search/keyword',$('form').serialize(),function(data) {
+				$('form').parent().css('height', 'auto').css('margin-top', '0');
+				//alert(data);
+				$('#search-result').html(data);
+			});
+		}
+
+		$(function(){
+			loading();
+			
+			//$("#sub").click(keyWordSearch(event));
+			$("form").submit(keyWordSearch);
+
+		});
+
+</script>
+
+	<div class="container">
+		<div class="row">
+			<div class="span7 offset2">
+				<h3>关键字检索</h3>
+				<div style="height:200px;margin-top:50px">
+					<form class="form-inline offset1" action="" method="post">
+						<input id="key_word" name="key" type="text" class="span4" placeholder="请输入欲检索的关键字">
+						<input name="page" type="hidden">
+						<button id="sub" type="submit" class="btn btn-primary">检索</button>
+						<button type="reset" onclick="location.href='{{@WEB_ROOT}}search/advance'" class="btn">高级检索</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+		<div class = "row">
+			<div style="display:none" class="loading">
+				<img src="{{@WEB_ROOT}}static/img/loading.gif" />
+			</div>
+			<div class="span10 offset2" id="search-result">
+			</div>
+		</div>
+	</div><!-- Container -->
+
+<F3:include href="common/footer.html" />

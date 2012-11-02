@@ -1,0 +1,156 @@
+<F3:include href="common/header.html" />
+
+<div class="container">
+	<div class="row">
+		<div class="span8 offset2">
+
+<!-- message -->
+	<F3:check if="{{@GET.has_submit}}">
+		<F3:check if="{{@GET.success}}">
+			<F3:true>
+				<div class="alert alert-success" style="display:">
+					<button class="close" data-dismiss="alert">&times;</button>
+					<h4 class="alert-heading">操作成功！</h4>
+			</F3:true>
+			<F3:false>
+				<div class="alert alert-error">
+					<button class="close" data-dismiss="alert">&times;</button>
+					<h4 class="alert-heading">操作失败！</h4>
+			</F3:false>
+		</F3:check>
+					<p>{{@GET.msg}}</p>
+				</div>
+	</F3:check>
+<!-- end of  message -->
+
+		
+		<div style="position:relative;zoom:1">
+			<h3>详细信息</h3>
+		<F3:check if="{{@user_group<2}}">
+			<div style="position:absolute; text-align:right; right:0; bottom:5px">
+				<a class="btn btn-primary" href="{{@WEB_ROOT}}device/edit?want=basic&did={{@d.did}}">编辑基本信息</a>
+				<a class="btn btn-primary" href="{{@WEB_ROOT}}device/add/2?did={{@d.did}}">添加参数类别</a>
+				<a class="btn btn-danger" onclick="if(window.confirm('确定删除？此操作不可恢复')) location.href='{{@WEB_ROOT}}device/del?want=device&did={{@d.did}}'">删除纪录</a>
+			</div>
+		</F3:check>
+		</div>
+
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th width="15%">基本信息</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td width="15%">型号名称</th>
+					<td>{{@d.dname}}</th>
+				</tr>
+				<tr>
+					<td>基本分类</td>
+					<td>{{@d.dcategory}}</td>
+				</tr>
+				<tr>
+					<td>研制国家</td>
+					<td>{{@d.dcountry}}</td>
+				</tr>
+				<tr>
+					<td>生产厂商</td>
+					<td>{{@d.dvendor}}</td>
+				</tr>
+				<tr>
+					<td>研制年代</td>
+					<td>{{@d.dyear}}</td>
+				</tr>
+					<td>装备对象</td>
+					<td>{{@d.duser}}</td>
+				</tr>
+				
+				<tr>
+					<td>其他</td>
+					<td>{{@d.dother}}</td>
+				</tr>
+				
+			</tbody>
+		</table>
+
+		<h3>性能参数</h3>
+
+	<F3:repeat group="{{@group}}" key="{{@id}}" value="{{@a}}">
+		<div style="position:relative">
+
+		<F3:check if="{{@user_group<2}}">
+			<div style="position:absolute; text-align:right; right:5px; top:5px">
+				<a class="btn btn-primary" href="{{@WEB_ROOT}}device/edit?want=parameter&cid={{@id}}&did={{@d.did}}">编辑参数信息</a>
+				<a class="btn btn-danger" href="{{@WEB_ROOT}}device/del?want=category&cid={{@id}}&did={{@d.did}}">删除参数类别</a>
+			</div>
+		</F3:check>
+
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th width="25%">{{@a.name}}</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+
+			<F3:repeat group="{{@a}}" key="{{@k}}" value="{{@p}}">
+				<F3:check if="{{@k=='0'}}">
+					<tr>
+						<td>{{@p.name}}</td>
+						<td>{{@p.content}}{{@p.comment}}</td>
+					</tr>
+				</F3:check>
+
+				<F3:check if="{{@k!='name'}}">
+					<tr>
+						<td width="17%">{{@p.name}}</td>
+						<td>{{@p.content}}{{@p.comment}}</td>
+					</tr>
+				</F3:check>
+
+			</F3:repeat>
+
+				</tbody>
+			</table>
+		</div>
+	</F3:repeat>
+		<div style="position:relative;zoom:1">
+			<h3>概述与现状</h3>
+		<F3:check if="{{@user_group<2}}">
+			<div style="position:absolute; text-align:right; right:0; bottom:5px">
+				<a class="btn btn-primary" href="{{@WEB_ROOT}}device/edit?want=basic&did={{@d.did}}">编辑</a>
+			</div>
+		</F3:check>
+		</div>
+
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th width="15%"></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td width="15%">现状</th>
+					<td>{{@d.dstatus}}</th>
+				</tr>
+				<tr>
+					<td width="15%">概述</th>
+					<td>{{@d.doverview}}</th>
+				</tr>
+			</tbody>
+		</table>
+
+		<img src="{{@WEB_ROOT}}avatar/{{@d.did}}.jpg"  onerror="this.parentNode.removeChild(this)" style="display:none" onload="this.style.display='block'" />
+
+		</div>
+
+	</div>
+</div>
+
+
+<F3:include href="common/footer.html" />

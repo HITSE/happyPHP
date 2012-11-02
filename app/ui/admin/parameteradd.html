@@ -1,0 +1,310 @@
+<F3:include href="common/header.html" />
+
+	<style>
+		.parameter{margin:15px}
+		#parameter-num-template, #parameter-str-template{display:none}
+		#a-category{display:none}
+		#a-category > h3, #a-category > button{display:inline}
+	</style>
+	<script type="text/javascript">
+
+		$(function(){
+			$("#add-category").focus();
+
+			var categoryId = 0;
+
+			/* 打开 */
+			$("#add-category").click(function(){
+				$("#add-category-modal").modal().find(":hidden").val("");
+				$("#category-auto-complete").val("");
+				var url = "{{@WEB_ROOT}}device/get/category?want=parent";
+				//$("#add-category-modal form").load(url);
+				autoCompleteGetJSON("#category-auto-complete", url + "&json=true", "#add-category-submit");
+			});
+
+			$("#add-parameter").click(function(){
+				$("select").hide();
+				$("#add-parameter-modal").modal().find(":hidden").val("");
+				$("#parameter-auto-complete").val("");
+				var url = "{{@WEB_ROOT}}device/get/category?want=child&id=" + categoryId;
+				//$("#add-parameter-modal form").load(url);
+				autoCompleteGetJSON("#parameter-auto-complete", url + "&json=true", "#add-as-num");
+			});
+
+			/* 关闭 */
+			$("#add-category-modal .close-modal").click(function(){
+				$("#add-category-modal").modal('hide');
+				$("#add-category-modal .control-group").removeClass("error");
+				$("select").show();
+			});
+
+			$("#add-parameter-modal .close-modal").click(function(){
+				$("#add-parameter-modal").modal('hide');
+				$("#add-parameter-modal .control-group").removeClass("error");
+				$("select").show();
+			});
+
+			$("#finish").click(function(){
+				$("input[name=flag]").val("2");
+				$("#sub-form").trigger("click");
+				//setTimeout(function(){window.location.href="{{@WEB_ROOT}}device/detail?did={{@did}}"},1500);
+				//window.location.href="{{@WEB_ROOT}}device/detail?did={{@did}}";
+			});
+
+			/* 提交 */
+			$("#add-category-submit").click(function(){
+				//var radioChecked = $("#add-category-modal :checked");
+				//categoryId = radioChecked.attr("id").substr(1);
+				//var categoryName = radioChecked.next().html();
+				categoryId = $(this).parent().parent().find(":hidden").val();
+				categoryName = $("#category-auto-complete").val();
+
+				if(categoryId == "" || categoryName == "" || categoryId == undefined){
+					$("#add-category-modal .control-group").addClass("error");
+					return;
+				}
+
+				$("#a-category > h3").html(categoryName);
+				$("#hidden_category").attr('value', categoryId);
+				$("#a-category").show();
+
+				$("#add-category").hide();
+				$("#add-category-modal").modal("hide").find(".control-group").removeClass("error");
+				$("#add-parameter").focus();
+			});
+
+			$("#add-parameter-modal button").click(function(){
+				var thisId = $(this).attr('id');
+				if(thisId  == undefined){
+					$("#add-parameter-modal").modal('hide');
+					$("select").show();
+					return;
+				}
+				//var radioChecked = $("#add-parameter-modal :checked");
+				//var parameterId= radioChecked.attr("id").substr(1);
+				//var parameterName = radioChecked.next().html();
+				parameterId = $(this).parent().parent().find(":hidden").val();
+				parameterName = $("#parameter-auto-complete").val();
+
+				if(parameterId == "" || parameterName == "" || parameterId == undefined){
+					$("#add-parameter-modal .control-group").addClass("error");
+					return;
+				}
+
+				if(thisId == "add-as-num") {
+					var input = $("#parameter-num-template").children().clone();
+					$(input).find(":input").each(function(){
+						$(this).attr("name", "n-0-" + parameterId + "-" + $(this).attr("id"));
+					});
+				}else if(thisId == "add-as-str") {
+					var input = $("#parameter-str-template").children().clone();
+					$(input).find(":input").each(function(){
+						$(this).attr("name", "s-0-" + parameterId + "-" + $(this).attr("id"));
+					});
+				}
+
+				$(input).find("h4").html(parameterName);
+				$("#parameter-input-area").prepend(input);
+				$("select").show();
+				$("#add-parameter-modal .control-group").removeClass("error");
+				$("#add-parameter-modal").modal("hide");
+				$("#add-parameter").focus();
+			});
+
+			/*
+			$('body').on("mouseout", ".parameter", function(){
+				$(this).find('button').hide();
+			});
+			$('body').on("mouseover", ".parameter", function(){
+				$(this).find('button').show();
+			});
+			*/
+			$('body').on("click", ".del-this", function(){
+				$(this).parent().parent().slideUp(200, function(){$(this).remove()});
+			});
+		})
+	</script>
+
+	<!-- 参数类别 -->
+	<div class="modal hide" id="add-category-modal">
+		<div class="modal-header">
+			<button type="button" class="close close-modal" data-dismiss="modal">×</button>
+			<h3>选择一个类别</h3>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal well">
+				<div class="control-group">
+					<label class="control-label" for='category-auto-complete'>输入拼音首字母缩写快速查找</label>
+					<div class="controls">
+						<input id='category-auto-complete' type="text">
+						<input type="hidden">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" id="add-category-submit" class="btn btn-primary">确定</button>
+			<button type="button" class="btn close-modal" data-dismiss="modal">取消</button>
+		</div>
+	</div>
+	<!-- END OF MODAL -->
+
+	<!-- 参数项 -->
+	<div class="modal hide" id="add-parameter-modal">
+		<div class="modal-header">
+			<button type="button" class="close close-modal" data-dismiss="modal">×</button>
+			<h3>增加一个类别</h3>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal well">
+				<div class="control-group">
+					<label class="control-label" for='parameter-auto-complete'>输入拼音首字母快速查找</label>
+					<div class="controls">
+						<input id='parameter-auto-complete' type="text">
+						<input type="hidden">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" id="add-as-str" class="btn btn-success">作为文本类型添加</button>
+			<button type="button" id="add-as-num" class="btn btn-danger">作为数字类型添加</button>
+			<button type="button" class="btn close-modal" data-dismiss="modal">取消</button>
+		</div>
+	</div>
+	<!-- END OF MODAL -->
+
+<div id="parameter-str-template">
+	<div class="parameter parameter-str">
+		<hr>
+		<div class="name-and-del" style="margin-bottom:15px;position:relative">
+			<h4 style="display:inline"></h4>
+			<button type="button" class="btn btn-danger del-this" style="position:absolute;right:0;">删除</button>
+		</div>
+		<div class="control-group">
+			<label class="control-label">文本内容</label>
+			<div class="controls">
+				<input class="input-xlarge" id="content" name="" type="text" class="span3" >
+			</div>
+		</div>
+
+		<div style="display:none" class="control-group">
+			<label class="control-label">附加信息</label>
+			<div class="controls">
+				<input class="input-xlarge" id="comment" name="duser" type="text" class="span3" >
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="parameter-num-template">
+	<div class="parameter parameter-num">
+		<hr>
+		<div class="name-and-del" style="margin-bottom:15px;position:relative">
+			<h4 style="display:inline"></h4>
+			<button type="button" class="btn btn-danger del-this" style="position:absolute;right:0;">删除</button>
+		</div>
+		<div class="control-group">
+			<label class="control-label">数值a</label>
+			<div class="controls">
+				<input class="input-xlarge " id="min" name="duser" type="text" class="span3" >
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">数值b</label>
+			<div class="controls">
+				<input class="input-xlarge " id="max" name="duser" type="text" class="span3" >
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">数字类型</label>
+			<div class="controls">
+				<select name="" id="type">
+	<F3:repeat group="{{@num_type}}" value="{{@v}}" key="{{@id}}">
+					<option value="{{@id}}">{{@v}}</option>
+	</F3:repeat>
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">计量单位</label>
+			<div class="controls">
+				<select name="" id="unit">
+	<F3:repeat group="{{@unit}}" value="{{@v}}" key="{{@id}}">
+					<option value="{{@id}}">{{@v}}</option>
+	</F3:repeat>
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">附加信息</label>
+			<div class="controls">
+				<input class="input-xlarge" id="comment" name="" type="text" class="span3" >
+			</div>
+		</div>
+	</div>
+</div>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="span7 offset2">
+				<form class="form-horizontal" action="{{@WEB_ROOT}}device/add/2" method="post">
+
+					<h2 style="display:inline">添加性能参数</h2>
+					<button class="btn btn-danger" type="button" id="add-category" style="display:inline">选择一个类别</button>
+					<div class="controls btn-groups" style="float:right">
+						<button id="sub-form" class="btn btn-info" type="submit" class="btn btn-primary">保存该类别</button>
+						<a class="btn btn-primary" href="{{@WEB_ROOT}}device/detail?did={{@did}}">完成</a>
+					</div>
+
+		<F3:check if="{{@GET.has_submit}}">
+			<F3:check if="{{@GET.success}}">
+				<F3:true>
+					<div class="alert alert-success" style="display:">
+						<button class="close" data-dismiss="alert">&times;</button>
+						<h4 class="alert-heading">操作成功！</h4>
+				</F3:true>
+				<F3:false>
+					<div class="alert alert-error">
+						<button class="close" data-dismiss="alert">&times;</button>
+						<h4 class="alert-heading">操作失败！</h4>
+				</F3:false>
+			</F3:check>
+						<p>{{@GET.msg}}</p>
+					</div>
+		</F3:check>
+
+<!------------------------------------------------>
+				<div style="margin:10px;" id="a-category">
+					<h3 style="display:inline"></h3>
+					<button type="button" class="btn btn-success" id="add-parameter" style="display:inline">添加一个子属性</button>
+
+					<div id="parameter-input-area">
+					</div>
+				</div>
+<!------------------------------------------------>
+
+
+					<!-- 提交按扭 -->
+					<input name="did" type="hidden" value="{{@did}}">
+					<input name="flag" type="hidden" value="{{@flag}}">
+					<input id="hidden_category" name="1st_category" type="hidden" value="">
+					<div class="form-actions">
+						<div class="controls btn-groups">
+							<!--<button type="submit" class="btn btn-primary">保存</button>-->
+							<!--<a class="btn btn-danger" href="{{@WEB_ROOT}}device/detail?did={{@did}}">返回</a>-->
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+		</div>
+	</div><!-- Container -->
+
+<F3:include href="common/footer.html" />

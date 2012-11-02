@@ -1,0 +1,312 @@
+<F3:include href="common/header.html" />
+
+	<style>
+		.parameter{margin:15px}
+		#parameter-num-template, #parameter-str-template{display:none}
+		#a-category > h3, #a-category > button{display:inline}
+	</style>
+	<script type="text/javascript">
+
+		$(function(){
+			$("#add-category").focus();
+
+			var categoryId = {{@cid}};
+
+			/* 打开 */
+
+			$("#add-parameter").click(function(){
+				$("select").hide();
+				$("#add-parameter-modal").modal().find(":hidden").val("");
+				$("#parameter-auto-complete").val("");
+				var url = "{{@WEB_ROOT}}device/get/category?want=child&id=" + categoryId;
+				//$("#add-parameter-modal form").load(url);
+				autoCompleteGetJSON("#parameter-auto-complete", url + "&json=true", "#add-as-num");
+			});
+
+			/* 关闭 */
+			$("#add-parameter-modal .close-modal").click(function(){
+				$("#add-parameter-modal").modal('hide');
+				$("#add-parameter-modal .control-group").removeClass("error");
+				$("select").show();
+			});
+
+			/* 提交 */
+			$("#add-parameter").focus();
+
+			$("#add-parameter-modal button").click(function(){
+				var thisId = $(this).attr('id');
+				if(thisId  == undefined){
+					$("#add-parameter-modal").modal('hide');
+					$("select").show();
+					return;
+				}
+				//var radioChecked = $("#add-parameter-modal :checked");
+				//var parameterId= radioChecked.attr("id").substr(1);
+				//var parameterName = radioChecked.next().html();
+				parameterId = $(this).parent().parent().find(":hidden").val();
+				parameterName = $("#parameter-auto-complete").val();
+
+				if(parameterId == "" || parameterName == "" || parameterId == undefined){
+					$("#add-parameter-modal .control-group").addClass("error");
+					return;
+				}
+
+				if(thisId == "add-as-num") {
+					var input = $("#parameter-num-template").children().clone();
+					$(input).find(":input").each(function(){
+						$(this).attr("name", "n-0-" + parameterId + "-" + $(this).attr("id"));
+					});
+				}else if(thisId == "add-as-str") {
+					var input = $("#parameter-str-template").children().clone();
+					$(input).find(":input").each(function(){
+						$(this).attr("name", "s-0-" + parameterId + "-" + $(this).attr("id"));
+					});
+				}
+
+				$(input).find("h4").html(parameterName);
+				$("#parameter-input-area").prepend(input);
+				$("select").show();
+				$("#add-parameter-modal .control-group").removeClass("error");
+				$("#add-parameter-modal").modal("hide");
+			});
+
+			$('body').on("mouseout", ".parameter", function(){
+				$(this).find('button').hide();
+			});
+			$('body').on("mouseover", ".parameter", function(){
+				$(this).find('button').show();
+			});
+			$('body').on("click", ".del-this", function(){
+				$(this).parent().parent().slideUp(200, function(){$(this).remove()});
+			});
+
+		})
+	</script>
+
+	<!-- 参数项 -->
+	<div class="modal hide" id="add-parameter-modal">
+		<div class="modal-header">
+			<button type="button" class="close close-modal" data-dismiss="modal">×</button>
+			<h3>增加一个参数项</h3>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal well">
+				<div class="control-group">
+					<label class="control-label" for='parameter-auto-complete'>输入拼音快速查找</label>
+					<div class="controls">
+						<input id='parameter-auto-complete' type="text">
+						<input type="hidden">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" id="add-as-num" class="btn btn-primary">作为数字类型添加</button>
+			<button type="button" id="add-as-str" class="btn btn-info">作为文本类型添加</button>
+			<button type="button" class="btn close-modal" data-dismiss="modal">取消</button>
+		</div>
+	</div>
+	<!-- END OF MODAL -->
+
+<div id="parameter-str-template">
+	<div class="parameter parameter-str">
+		<hr>
+		<div class="name-and-del" style="margin-bottom:15px;position:relative">
+			<h4 style="display:inline"></h4>
+			<button type="button" class="btn btn-danger del-this" style="position:absolute;right:0;">删除</button>
+		</div>
+		<div class="control-group">
+			<label class="control-label">文本内容</label>
+			<div class="controls">
+				<input class="input-xlarge" id="content" name="" type="text" class="span3">
+			</div>
+		</div>
+
+		<div style="display:none" class="control-group">
+			<label class="control-label">附加信息</label>
+			<div class="controls">
+				<input class="input-xlarge" id="comment" name="duser" type="text" class="span3" maxlength="60">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="parameter-num-template">
+	<div class="parameter parameter-num">
+		<hr>
+		<div class="name-and-del" style="margin-bottom:15px;position:relative">
+			<h4 style="display:inline"></h4>
+			<button type="button" class="btn btn-danger del-this" style="position:absolute;right:0;">删除</button>
+		</div>
+		<div class="control-group">
+			<label class="control-label">数值a(最小值)</label>
+			<div class="controls">
+				<input class="input-xlarge " id="min" name="duser" type="text" class="span3" maxlength="60">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">数值b(最大值)</label>
+			<div class="controls">
+				<input class="input-xlarge " id="max" name="duser" type="text" class="span3" maxlength="60">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">数字类型</label>
+			<div class="controls">
+				<select name="" id="type">
+	<F3:repeat group="{{@num_type}}" value="{{@v}}" key="{{@id}}">
+					<option value="{{@id}}">{{@v}}</option>
+	</F3:repeat>
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">计量单位</label>
+			<div class="controls">
+				<select name="" id="unit">
+	<F3:repeat group="{{@unit}}" value="{{@v}}" key="{{@id}}">
+					<option value="{{@id}}">{{@v}}</option>
+	</F3:repeat>
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">附加信息</label>
+			<div class="controls">
+				<input class="input-xlarge" id="comment" name="" type="text" class="span3">
+			</div>
+		</div>
+	</div>
+</div>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="span7 offset2">
+				<form class="form-horizontal" action="{{@WEB_ROOT}}device/edit/parameter" method="post">
+
+					<h2 style="display:inline">修改参数信息</h2>
+					<div class="controls btn-groups" style="float:right">
+						<button type="submit" class="btn btn-primary">保存</button>
+					</div>
+
+		<F3:check if="{{@GET.has_submit}}">
+			<F3:check if="{{@GET.success}}">
+				<F3:true>
+					<div class="alert alert-success" style="display:">
+						<button class="close" data-dismiss="alert">&times;</button>
+						<h4 class="alert-heading">操作成功！</h4>
+				</F3:true>
+				<F3:false>
+					<div class="alert alert-error">
+						<button class="close" data-dismiss="alert">&times;</button>
+						<h4 class="alert-heading">操作失败！</h4>
+				</F3:false>
+			</F3:check>
+						<p>{{@GET.msg}}</p>
+					</div>
+		</F3:check>
+
+				<div style="margin:10px;" id="a-category">
+					<h3 style="display:inline">{{@category_name}}</h3>
+					<button type="button" class="btn" id="add-parameter" style="display:inline">增加一个参数项</button>
+
+					<div id="parameter-input-area">
+<!------------------------------------------------>
+<F3:repeat group="{{@all}}" value="{{@v}}">
+<F3:check if="{{@v.parameter_type=='num'}}">
+<F3:true>
+	<div class="parameter parameter-num">
+		<hr>
+		<div class="name-and-del" style="margin-bottom:15px">
+			<h4 style="display:inline">{{@v.name}}</h4>
+			<button type="button" class="btn btn-danger del-this" style="float:right;display:none">删除</button>
+		</div>
+		<div class="control-group">
+			<label class="control-label">数值a(最小值)</label>
+			<div class="controls">
+				<input class="input-xlarge " value="{{@v.min}}" id="min" name="n-0-{{@v.id}}-min" type="text" class="span3" maxlength="60">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">数值b(最大值)</label>
+			<div class="controls">
+				<input class="input-xlarge " value="{{@v.max}}" id="max" name="n-0-{{@v.id}}-max" type="text" class="span3" maxlength="60">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">数字类型</label>
+			<div class="controls">
+				<select name="n-0-{{@v.id}}-type" id="type">
+	<F3:repeat group="{{@num_type}}" value="{{@vv}}" key="{{@id}}">
+					<option {{ @v.type == @id ? 'selected' : ''}} value="{{@id}}">{{@vv}}</option>
+	</F3:repeat>
+				</select>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">计量单位</label>
+			<div class="controls">
+				<select name="n-0-{{@v.id}}-unit" id="unit">
+	<F3:repeat group="{{@unit}}" value="{{@vv}}" key="{{@id}}">
+					<option {{ @v.unit == @id ? 'selected' : ''}} value="{{@id}}">{{@vv}}</option>
+	</F3:repeat>
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">附加信息</label>
+			<div class="controls">
+				<input class="input-xlarge" value="{{@v.comment}}" id="comment" name="n-0-{{@v.id}}-comment" type="text" class="span3">
+			</div>
+		</div>
+	</div>
+</F3:true>
+
+<F3:false>
+	<div class="parameter parameter-str">
+		<hr>
+		<h4>{{@v.name}}</h4>
+		<div class="control-group">
+			<label class="control-label">文本内容</label>
+			<div class="controls">
+				<input class="input-xlarge" id="content" value="{{@v.content}}" name="s-0-{{@v.id}}-content" type="text" class="span3">
+			</div>
+		</div>
+
+		<div style="display:none" class="control-group">
+			<label class="control-label">附加信息</label>
+			<div class="controls">
+				<input class="input-xlarge" id="comment" value="{{@v.comment}}" name="s-0-{{@v.id}}-comment" type="text" class="span3" maxlength="60">
+			</div>
+		</div>
+	</div>
+</F3:false>
+
+</F3:repeat>
+
+<!------------------------------------------------>
+					</div>
+				</div>
+
+					<!-- 提交按扭 -->
+					<input name="did" type="hidden" value="{{@did}}">
+					<input id="hidden_category" name="1st_category" type="hidden" value="{{@cid}}">
+					<div class="form-actions">
+						<div class="controls btn-groups">
+							<button type="submit" class="btn btn-primary">保存</button>
+							<a class="btn btn-danger" href="{{@WEB_ROOT}}device/detail?did={{@did}}">返回</a>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div><!-- Container -->
+
+<F3:include href="common/footer.html" />

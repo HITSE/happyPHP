@@ -1,0 +1,64 @@
+<F3:include href="common/header.html" />
+
+
+	<div class="container">
+		<div class="row">
+			<div class="span7 offset2">
+	<F3:check if="{{@GET.has_submit}}">
+		<F3:check if="{{@GET.success}}">
+			<F3:true>
+				<div class="alert alert-success" style="display:">
+					<button class="close" data-dismiss="alert">&times;</button>
+					<h4 class="alert-heading">操作成功！</h4>
+			</F3:true>
+			<F3:false>
+				<div class="alert alert-error">
+					<button class="close" data-dismiss="alert">&times;</button>
+					<h4 class="alert-heading">操作失败！</h4>
+			</F3:false>
+		</F3:check>
+					<p>{{@GET.msg}}</p>
+				</div>
+	</F3:check>
+				<form class="form-inline well" method="get" action="">
+					<strong> 根据名称查找: </strong>
+						<!--[if IE 6]>
+							<div style="">
+						<![endif]-->
+					<input name="name" type="text" class="span2" required placeholder="请输入名称">
+						<!--[if IE 6]>
+							</div>
+						<![endif]-->
+					<button type="submit" class="btn">查找</button>
+					<a class="btn btn-danger" href="{{@WEB_ROOT}}category/add">新增</a>
+					<a class="btn btn-primary" href="{{@WEB_ROOT}}category/list">查看全部</a>
+				</form>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>名称</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					<F3:repeat group="{{@DB->result}}" value="{{@v}}" counter="{{@c}}">
+						<tr>
+							<td class="uid" style="display:none">{{@v.id}}</td>
+							<td>{{@c}}</td>
+							<td class="uname">{{@v.name}}</td>
+							<td>
+								<a class="btn btn-success change-group" href="{{@WEB_ROOT}}category/edit?id={{@v.id}}">编辑</a>
+								<a class="btn btn-primary change-pass" href="{{@WEB_ROOT}}category/del?id={{@v.id}}">删除</a>
+							</td>
+						</tr>
+					</F3:repeat>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div><!-- Container -->
+
+<F3:include href="common/footer.html" />
