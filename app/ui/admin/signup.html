@@ -9,52 +9,50 @@
 
 <!------------------------------------------------>
 	<div class="control-group">
-		<label class="control-label">文本内容</label>
+		<label class="control-label">餐厅名</label>
 		<div class="controls">
-			<input class="input-xlarge" id="content" name="" type="text" class="span3" >
-		</div>
-	</div>
-
-	<div style="display:none" class="control-group">
-		<label class="control-label">附加信息</label>
-		<div class="controls">
-			<input class="input-xlarge" id="comment" name="duser" type="text" class="span3" >
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">数值a</label>
-		<div class="controls">
-			<input class="input-xlarge " id="min" name="duser" type="text" class="span3" >
+			<input class="input-xlarge" id="content" name="name" type="text" class="span3" >
 		</div>
 	</div>
 
 	<div class="control-group">
-		<label class="control-label">数值b</label>
+		<label class="control-label">联系电话</label>
 		<div class="controls">
-			<input class="input-xlarge " id="max" name="duser" type="text" class="span3" >
+			<input class="input-xlarge" id="comment" name="phone" type="text" class="span3" >
 		</div>
 	</div>
 
 	<div class="control-group">
-		<label class="control-label">数字类型</label>
+		<label class="control-label">地址</label>
 		<div class="controls">
-			<select name="" id="type">
-<F3:repeat group="{{@num_type}}" value="{{@v}}" key="{{@id}}">
-				<option value="{{@id}}">{{@v}}</option>
-</F3:repeat>
-			</select>
+			<input class="input-xlarge " id="max" name="addr" type="text" class="span3" >
 		</div>
 	</div>
+
+	<div class="control-group">
+		<label class="control-label">概况</label>
+		<div class="controls">
+			<input class="input-xlarge " id="min" name="describe" type="text" class="span3" >
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label">餐桌</label>
+		<div class="controls">
+			<input class="input-xlarge " id="min" placeholder="4:10,8:5" name="table" type="text" class="span3" >
+		</div>
+	</div>
+
 
 <!------------------------------------------------>
 
-					<!-- 提交按扭 -->
-					<div class="form-actions">
-						<div class="controls btn-groups">
-							<button type="submit" class="btn btn-primary">保存</button>
-							<!--<a class="btn btn-danger" href="{{@WEB_ROOT}}device/detail?did={{@did}}">返回</a>-->
-						</div>
-					</div>
+<!-- 提交按扭 -->
+<div class="form-actions">
+	<div class="controls btn-groups">
+		<input type="reset" class="btn">
+		<button type="submit" class="btn btn-primary">提交</button>
+	</div>
+</div>
 
 
 				</form>

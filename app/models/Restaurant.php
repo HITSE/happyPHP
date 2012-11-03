@@ -5,15 +5,13 @@ class Restaurant{
 	}
 
 	static function getDetail($id) {
-		$r = DB::sql('select * from restaurant where id = :id', array(':id' => $id));
+		$r = DB::sql('SELECT * FROM restaurant WHERE id = :id', array(':id' => $id));
 		if (count($r) > 0){
 			$r = $r[0];
-			$rs = DB::sql('SELECT COUNT(*) FROM queue WHERE rid = :rid AND status = "queueing"', 
-				array(':rid' => $r['id'])
-			);
-			$r['num'] = $rs[0]["COUNT(*)"];
+			$r['num'] = Queue::getNum($id);
 			$r['time'] = $r['num'] * 5;
 			$r['time'].= " min";
+			//Code::dump($r);
 			return $r;
 		} else{
 			return false;

@@ -2,6 +2,12 @@
 
 class User{
 
+	static function updateAdmin($rid){
+		$uid = F3::get("COOKIE.se_user_id");
+		$sql = "UPDATE admin SET rid = $rid WHERE uid = $uid";
+		setcookie('se_user_admin', $rid);
+		DB::sql($sql);
+	}
 
 	//根据info数组插入数据表,并执行登录操作
 	static function signUp($info){

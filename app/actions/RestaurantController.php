@@ -15,68 +15,56 @@ class RestaurantController{
 	}
 
 	function listQueue(){
-		//$id = F3::get("GET.id");
-		$all = array(
-			array(
-				"capacity" => 4,
-				"customer" => array(
-					array(
-						"num" => 2,
-						"time" => "14:30:23",
-						"phone" => "18009872634",
-						"status" => "queuing"
-					),
-					array(
-						"num" => 4,
-						"time" => "14:36:07",
-						"phone" => "13234204938",
-						"status" => "queuing"
-					),
-					array(
-						"num" => 4,
-						"time" => "14:42:42",
-						"phone" => "13909234329",
-						"status" => "queuing"
-					)
-				)
-			),
-			array(
-				"capacity" => 6,
-				"customer" => array(
-					array(
-						"num" => 5,
-						"time" => "14:40:23",
-						"phone" => "13409832637",
-						"status" => "smsed"
-					),
-					array(
-						"num" => 6,
-						"time" => "14:41:23",
-						"phone" => "13098302903",
-						"status" => "queuing"
-					)
-				)
-			)
-		);
 
+		$rid = F3::get("COOKIE.se_user_admin");
+		echo $rid;
+		if($rid == 0)
+			F3::reroute("/admin/signup");
+
+		$all = Queue::getAll($rid);
 		F3::set("all", $all);
-
 		echo Template::serve('admin/listqueue.html');
 	}
 
 	function notifyUser(){
+		// phone
 		$user = F3::get("GET.id");
-		// sms
-		
-		// update status
-		//
+		Queue::notify($user);
+		F3::reroute("/admin");
 	}
 
 	function customerArrive(){
 		$user = F3::get("GET.id");
+		Queue::arrive($user);
+		F3::reroute("/admin");
 	}
 
-	function signUpRestaurant(){
+
+	function showSignUpRestaurant(){
+		echo Template::serve('admin/signup.html');
+	}
+
+	function signUp(){
+		//$rid = F3::get("GET.rid");
+		$a = array();
+		$a['phone'] = F3::get("POST.phone");
+		$a['name'] = F3::get("POST.name");
+		$a['addr'] = F3::get("POST.addr");
+		$a['describe'] = F3::get("POST.describe");
+
+		$id = Queue::signUp($a);
+
+		User::updateAdmin($id);
+
+		$table = F3::get("POST.table");
+
+		$a = array();
+
+		$length = strlen($table);
+
+		F3::reroute("/admin");
+
+		//Table::insert($id, $table);
 	}
 
 }
