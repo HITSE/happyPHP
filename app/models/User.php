@@ -57,8 +57,10 @@ class User{
 		//Code::dump($user);
 
 		$rid = self::is_admin($user['uid']);
-		if($rid !== false)
+		if($rid !== false){
 			setcookie('se_user_admin', $rid);
+			echo "<h1>set Cookie</h1>";
+		}
 	}
 
 	static function logout(){

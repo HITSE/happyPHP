@@ -16,8 +16,9 @@ class RestaurantController{
 
 	function listQueue(){
 
-		$rid = F3::get("COOKIE.se_user_admin");
-		echo $rid;
+		$rid = F3::get("COOKIE");
+		//Code::dump($rid);
+		$rid = $rid['se_user_admin'];
 		if($rid == 0)
 			F3::reroute("/admin/signup");
 
@@ -58,13 +59,10 @@ class RestaurantController{
 
 		$table = F3::get("POST.table");
 
-		$a = array();
-
-		$length = strlen($table);
+		Table::setTable($id, $table);
 
 		F3::reroute("/admin");
 
-		//Table::insert($id, $table);
 	}
 
 }
