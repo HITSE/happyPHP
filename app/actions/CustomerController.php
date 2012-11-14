@@ -3,8 +3,10 @@
 class CustomerController{
 
 	function __construct(){
-		if(User::is_login())
+		if(User::is_login()){
 			F3::set("login", "true");
+			F3::set("title", "我要排队");
+		}
 		//}else{
 			//F3::reroute('/login');
 		//}

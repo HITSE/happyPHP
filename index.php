@@ -7,16 +7,23 @@ require __DIR__.'/app/lib/base.php';
 F3::config('app/cfg/setup.cfg');
 F3::config('app/cfg/routes.cfg');
 
-try{
-	if(F3::get('DBT') == 'mssql')
-		$dsn = 'sqlsrv:Server='.F3::get('DBC.HOST').';database='.F3::get('DBC.NAME');
-	else if(F3::get('DBT') == 'mysql')
-		$dsn = 'mysql:host='.F3::get('DBC.HOST').';dbname='.F3::get('DBC.NAME');
+$services_json = json_decode(getenv("VCAP_SERVICES"),true);
+$mysql_config = $services_json["mysql-5.1"][0]["credentials"];
 
-	F3::set('DB', new DB($dsn, F3::get('DBC.USR'), F3::get('DBC.PWD')));
+$username = $mysql_config["username"];
+$password = $mysql_config["password"];
+$hostname = $mysql_config["hostname"];
+$port = $mysql_config["port"];
+$db = $mysql_config["name"];
+
+try{
+	$dsn = 'mysql:host='.$hostname.';port='.$port.';dbname='.$db;
+
+	F3::set('DB', new DB($dsn, $username, $password));
 
 }catch(PDOException $e){
 	echo $e.message;
+	echo "db error";
 	exit;
 }
 

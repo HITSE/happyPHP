@@ -5,6 +5,7 @@ class RestaurantController{
 	function __construct(){
 		if(User::is_login()){
 			F3::set("login", "true");
+			F3::set("title", "餐厅管理");
 		}else{
 			F3::reroute('/login');
 		}
@@ -16,9 +17,10 @@ class RestaurantController{
 
 	function listQueue(){
 
-		$rid = F3::get("COOKIE");
-		//Code::dump($rid);
-		$rid = $rid['se_user_admin'];
+		$rida = F3::get("COOKIE");
+		//Code::dump($rida);
+		echo $rida;
+		$rid = $rida['se_user_admin'];
 		if($rid == 0)
 			F3::reroute("/admin/signup");
 
