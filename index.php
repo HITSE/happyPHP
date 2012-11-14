@@ -18,7 +18,6 @@ $db = $mysql_config["name"];
 
 try{
 	$dsn = 'mysql:host='.$hostname.';port='.$port.';dbname='.$db;
-
 	F3::set('DB', new DB($dsn, $username, $password));
 
 }catch(PDOException $e){
