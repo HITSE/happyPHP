@@ -13,21 +13,30 @@ class RestaurantController{
 		if(User::is_admin() === false){
 			F3::reroute('/');
 		}
+		F3::set('route', 'admin');
+		F3::set('admin', 'true');
+	}
+
+	function method(){
+
+			F3::reroute('/admin');
 	}
 
 	function listQueue(){
 
 		$rida = F3::get("COOKIE");
 		//Code::dump($rida);
-		echo $rida;
 		$rid = $rida['se_user_admin'];
 		if($rid == 0)
 			F3::reroute("/admin/signup");
 
 		$all = Queue::getAll($rid);
+	
+		F3::set("auto", "true");
 		F3::set("all", $all);
 		echo Template::serve('admin/listqueue.html');
 	}
+
 
 	function notifyUser(){
 		// phone
@@ -49,13 +58,9 @@ class RestaurantController{
 
 	function signUp(){
 		//$rid = F3::get("GET.rid");
-		$a = array();
-		$a['phone'] = F3::get("POST.phone");
-		$a['name'] = F3::get("POST.name");
-		$a['addr'] = F3::get("POST.addr");
-		$a['describe'] = F3::get("POST.describe");
+		$a = $this->getInfo();
 
-		$id = Queue::signUp($a);
+		$id = Restaurant::signUp($a);
 
 		User::updateAdmin($id);
 
@@ -65,6 +70,45 @@ class RestaurantController{
 
 		F3::reroute("/admin");
 
+	}
+
+	function showEditBasicInfo(){
+		$id = F3::get("COOKIE.se_user_admin");
+		$r = Restaurant::getDetail($id);
+		F3::set("r", $r);
+		echo Template::serve('admin/editbasic.html');
+	}
+
+	function showEditWaitTime(){
+		$id = F3::get("COOKIE.se_user_admin");
+		$t = Restaurant::getTime($id);
+		F3::set("time", $t);
+		echo Template::serve('admin/edittime.html');
+	}
+
+	function editWaitTime(){
+		$t = F3::get("POST.time");
+		Restaurant::updateTime($t);
+		F3::reroute("/admin");
+	}
+
+
+	function editBasicInfo(){
+		$a = $this->getInfo();
+		Restaurant::update($a);
+		F3::reroute("/admin");
+	}
+
+
+	function getInfo(){
+		$a = array();
+		$a['phone'] = F3::get("POST.phone");
+		$a['name'] = F3::get("POST.name");
+		$a['time'] = F3::get("POST.time");
+		$a['table'] = F3::get("POST.table");
+		$a['addr'] = F3::get("POST.addr");
+		$a['describe'] = F3::get("POST.describe");
+		return $a;
 	}
 
 }

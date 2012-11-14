@@ -4,18 +4,38 @@ class Restaurant{
 	function __construct(){
 	}
 
+	static function signUp($i){
+		$sql = "INSERT INTO restaurant VALUES ('', '{$i['name']}', '{$i['phone']}',
+				'{$i['addr']}', '{$i['describe']}', '{$i['time']}', '{$i['table']}')";
+		DB::sql($sql);
+		return DB::get_insert_id();
+	}
+
 	static function getDetail($id) {
 		$r = DB::sql('SELECT * FROM restaurant WHERE id = :id', array(':id' => $id));
 		if (count($r) > 0){
 			$r = $r[0];
 			$r['num'] = Queue::getNum($id);
-			$r['time'] = $r['num'] * 5;
-			$r['time'].= " min";
-			//Code::dump($r);
+			$r['time'] = $r['num'] * $r['time'];
+			$r['time_t'] = $r['time'];
+
+			if($r['time'] <= 60){
+				$r['time'].= " 分钟";
+			}else{
+				$h = floor($r['time'] / 60);
+				$m = $r['time'] % 60;
+				$r['time'] = $h."小时".$m."分钟";
+			}
+			
 			return $r;
 		} else{
 			return false;
 		}
+	}
+
+	static function getTime($id) {
+		$r = DB::sql('SELECT time FROM restaurant WHERE id = :id', array(':id' => $id));
+		return $r[0]['time'];
 	}
 
 	static function getBasicInfo($id) {
@@ -37,6 +57,28 @@ class Restaurant{
 		foreach($r as $v)
 			$a[] = self::getDetail($v['id']);
 		return $a;
+	}
+
+	static function updateTime($t){
+		$id = F3::get("COOKIE.se_user_admin");
+
+		$sql = "UPDATE restaurant SET `time` = '{$t}' WHERE id = '$id';";
+		DB::sql($sql);
+	}
+
+	static function update($a){
+		$id = F3::get("COOKIE.se_user_admin");
+
+		$sql = "UPDATE restaurant SET name = '{$a['name']}', phone = '{$a['phone']}',
+					addr = '{$a['addr']}', `describe` = '{$a['describe']}',
+					`table` =  '{$a['table']}' WHERE id = '$id';";
+		DB::sql($sql);
+
+		$sql = "DELETE FROM `table` WHERE rid = $id";
+		DB::sql($sql);
+
+		Table::setTable($id, $a['table']);
+
 	}
 }
 

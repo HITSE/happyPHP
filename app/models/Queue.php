@@ -1,12 +1,6 @@
 <?php
 class Queue{
 
-	static function signUp($i){
-		$sql = "INSERT INTO restaurant VALUES ('', '{$i['name']}', '{$i['phone']}', '{$i['addr']}', '{$i['describe']}')";
-		DB::sql($sql);
-		return DB::get_insert_id();
-	}
-
 	static function arrive($phone){
 		// send msg
 		//$msg = new PHPFetion("15114588070", "");
@@ -49,15 +43,13 @@ class Queue{
 		return $a;
 	}
 
-
-
 	static function addItem($rid, $phone, $num){
 		$time = time();
 		$table = Table::getTable($rid, $num);
 		
 		$sql = "INSERT INTO queue VALUES 
 			('', $rid, '$table', '$phone', '$num', '$time', '', '', 'queuing')";
-		echo $sql;
+		//echo $sql;
 		$r = DB::sql($sql);
 	}
 
@@ -68,9 +60,8 @@ class Queue{
 		$rs = DB::sql('SELECT phone FROM queue WHERE rid = :rid AND status = "queuing" ORDER BY time ASC', 
 			array(':rid' => $rid)
 		);
-		Code::dump($rs);
+		//Code::dump($rs);
 		$phone = $rs[0]['phone'];
-
 	}
 
 	static function getNum($rid){

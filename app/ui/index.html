@@ -23,9 +23,9 @@
 			<div class="nav-collapse collapse">
 				<ul class="nav">
 					<!--<li class="active"><a href="#">首页</a></li>-->
-					<li><a href="{{@WEB_ROOT}}user/list">我要排队</a></li>
-					<li><a href="{{@WEB_ROOT}}admin">餐厅管理</a></li>
-					<li><a href="{{@WEB_ROOT}}about">关于我们</a></li>
+					<li><a href="{{@WEB_ROOT}}user/list"><i class="icon-book"></i> 我要排队</a></li>
+					<li><a href="{{@WEB_ROOT}}admin"><i class="icon-user"></i> 餐厅管理</a></li>
+					<li><a href="{{@WEB_ROOT}}about"><i class="icon-tasks"></i> 关于我们</a></li>
 				</ul>
 				<ul class="nav pull-right">
 				<F3:check if="{{@login}}">
@@ -34,18 +34,9 @@
 					</F3:true>
 					<F3:false>
 						<li><a href="{{@WEB_ROOT}}login">登录</a></li>
+						<li><a href="{{@WEB_ROOT}}signup">注册</a></li>
 					</F3:false>
 				</F3:check>
-					<li><a href="{{@WEB_ROOT}}signup">注册</a></li>
-						
-
-					<!--<li class="dropdown">-->
-						<!--<a href="#" role="button" id="asdf" class="dropdown-toggle" data-toggle="dropdown">注册<b class="caret"></b></a>-->
-						<!--<ul class="dropdown-menu" role="menu" aria-labelledby="asdf">-->
-							<!--<li><a href="user/signup">普通用户注册</a></li>-->
-							<!--<li><a href="admin/signup">餐厅注册</a></li>-->
-						<!--</ul>-->
-					<!--</li>-->
 				</ul>
 			</div>
 		</div>

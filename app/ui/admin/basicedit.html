@@ -2,54 +2,6 @@
 
 <script type="text/javascript">
 	$(function(){
-		$("#1st-category :radio").change(function(){
-			$("#3rd-category :checked").attr("checked", false);
-			if($(this).attr("value") == '1'){
-				$("#3rd-category .radio").hide()
-					.parent().find("input[value=21]").attr("checked", true).parent().show()
-					.parent().find("input[value=100]").parent().show()
-					.parent().find("input[value=22]").parent().show();
-
-			} else if($(this).attr("value") == '2'){
-				$("#3rd-category .radio").hide()
-					.parent().find("input[value=23]").attr("checked", true).parent().show()
-					.parent().find("input[value=24]").parent().show()
-					.parent().find("input[value=100]").parent().show()
-					.parent().find("input[value=25]").parent().show();
-			}
-		});
-
-		$("#2nd-category :radio").change(function(){
-			$("#3rd-category :checked").attr("checked", false);
-			var first_val = $("#1st-category :checked").attr("value");
-			var second_val = $("#2nd-category :checked").attr("value");
-			if(first_val == "1"){
-				if(second_val == '11'){
-					$("#3rd-category .radio").hide()
-						.parent().find("input[value=21]").attr("checked", true).parent().show()
-						.parent().find("input[value=100]").parent().show()
-						.parent().find("input[value=22]").parent().show();
-				} else
-				if(second_val == '12'){
-					$("#3rd-category .radio").hide();
-				}
-			}else if(first_val == "2"){
-				if(second_val == '11'){
-					$("#3rd-category .radio").hide()
-						.parent().find("input[value=23]").attr("checked", true).parent().show()
-						.parent().find("input[value=100]").parent().show();
-				} else if(second_val == '12'){
-					$("#3rd-category .radio").hide()
-						.parent().find("input[value=24]").attr("checked", true).parent().show()
-						.parent().find("input[value=100]").parent().show()
-						.parent().find("input[value=25]").parent().show();
-				}
-			}else {
-					$("#3rd-category .radio").hide()
-						.parent().find("input[value=100]").attr("checked", true).parent().show();
-			}
-
-		});
 	});
 
 </script>
@@ -60,23 +12,6 @@
 				<form class="form-horizontal" action="{{@WEB_ROOT}}device/edit/basic" method="post" enctype="multipart/form-data">
 
 					<h3>修改设备基本信息</h3>
-
-		<F3:check if="{{@GET.has_submit}}">
-			<F3:check if="{{@GET.success}}">
-				<F3:true>
-					<div class="alert alert-success" style="display:">
-						<button class="close" data-dismiss="alert">&times;</button>
-						<h4 class="alert-heading">操作成功！</h4>
-				</F3:true>
-				<F3:false>
-					<div class="alert alert-error">
-						<button class="close" data-dismiss="alert">&times;</button>
-						<h4 class="alert-heading">操作失败！</h4>
-				</F3:false>
-			</F3:check>
-						<p>{{@GET.msg}}</p>
-					</div>
-		</F3:check>
 
 					<!-- 文本框 -->
 					<div class="control-group">

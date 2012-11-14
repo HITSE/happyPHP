@@ -76,6 +76,7 @@ class Home{
 	}
 
 	function about(){
+		F3::set('route', 'about');
 		echo Template::serve('about.html');
 	}
 

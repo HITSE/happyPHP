@@ -1,5 +1,61 @@
 <F3:include href="common/header.html" />
 
+<div id="num" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">请输入用餐人数</h3>
+	</div>
+		<form action="{{@WEB_ROOT}}user/add" method="get">
+	<div class="modal-body">
+			<div class="control-group">
+				<label class="control-label">用餐人数</label>
+				<div class="controls">
+					<input class="input-xlarge" id="comment" name="num" type="text" class="span3" >
+				</div>
+			</div>
+
+			<input type="hidden" name="rid" value="{{@rid}}">
+			<input type="hidden" name="phone" value="{{@phone}}">
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+		<input type="submit" class="btn btn-primary" value="提交">
+	</div>
+	
+		</form>
+</div>
+
+<div id="phone" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Modal header</h3>
+	</div>
+		<form action="{{@WEB_ROOT}}user/add" method="get">
+	<div class="modal-body">
+			<div class="control-group">
+				<label class="control-label">联系电话</label>
+				<div class="controls">
+					<input class="input-xlarge" id="time" name="phone" type="text" class="span3" >
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">用餐人数</label>
+				<div class="controls">
+					<input class="input-xlarge" id="comment" name="num" type="text" class="span3" >
+				</div>
+			</div>
+
+			<input type="hidden" name="rid" value="{{@rid}}">
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+		<input type="submit" class="btn btn-primary" value="提交">
+	</div>
+	
+		</form>
+</div>
+
 <div class="container">
 	<div class="row">
 		<div class="span8 offset2">
@@ -21,7 +77,7 @@
 					<td>{{@r.describe}}</td>
 				</tr>
 				<tr>
-					<td>当前排队人数</td>
+				<td>当前排队人数</td>
 					<td>{{@r.num}}</td>
 				</tr>
 				<tr>
@@ -46,7 +102,14 @@
 
 		<div class="row">
 			<div class="span6 offset2">
-				<a href="{{@WEB_ROOT}}user/add?rid={{@r.id}}&phone={{@phone}}&num=3" class="btn btn-success btn-large">将我加入排队</a>
+		<F3:check if="{{@login}}">
+			<F3:true>
+				<a href="#num" role="button" class="btn btn-success btn-large" data-toggle="modal">将我加入排队</a>
+			</F3:true>
+			<F3:false>
+				<a href="#phone" role="button" class="btn btn-success btn-large" data-toggle="modal">将我加入排队</a>
+			</F3:false>
+		</F3:check>
 				<a href="{{@WEB_ROOT}}user/list" class="btn btn-large">查看其他餐厅</a>
 		</div>
 

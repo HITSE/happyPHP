@@ -3,53 +3,43 @@
 	<div class="container">
 		<div class="row">
 			<div class="span7 offset2">
-				<form class="form-horizontal" action="{{@WEB_ROOT}}admin/signup" method="post">
+				<form class="form-horizontal" action="{{@WEB_ROOT}}admin/edit" method="post">
 
-					<h2 style="display:inline">注册餐馆</h2>
+					<h2 style="display:inline">信息修改</h2>
 
 <!------------------------------------------------>
 	<div class="control-group">
 		<label class="control-label">餐厅名</label>
 		<div class="controls">
-			<input class="input-xlarge" id="content" name="name" type="text" class="span3" >
-		</div>
-	</div>
-
-	<div class="control-group">
-		<label class="control-label">平均等待时间</label>
-		<div class="controls">
-			<div class="input-append">
-				<input class="input-xlarge" id="time" name="time" type="text" class="span3" >
-				<span class="add-on">分钟</span>
-			</div>
+			<input class="input-xlarge" id="content" name="name" type="text" class="span3" value="{{@r.name}}">
 		</div>
 	</div>
 
 	<div class="control-group">
 		<label class="control-label">联系电话</label>
 		<div class="controls">
-			<input class="input-xlarge" id="comment" name="phone" type="text" class="span3" >
+			<input class="input-xlarge" id="comment" name="phone" type="text" class="span3" value="{{@r.phone}}" >
 		</div>
 	</div>
 
 	<div class="control-group">
 		<label class="control-label">地址</label>
 		<div class="controls">
-			<input class="input-xlarge " id="max" name="addr" type="text" class="span3" >
+			<input class="input-xlarge " id="max" name="addr" type="text" class="span3" value="{{@r.addr}}" >
 		</div>
 	</div>
 
 	<div class="control-group">
 		<label class="control-label">概况</label>
 		<div class="controls">
-			<input class="input-xlarge " id="min" name="describe" type="text" class="span3" >
+			<input class="input-xlarge " id="min" name="describe" type="text" class="span3" value="{{@r.describe}}" >
 		</div>
 	</div>
 
 	<div class="control-group">
 		<label class="control-label">餐桌</label>
 		<div class="controls">
-			<input class="input-xlarge " id="min" placeholder="4:10,8:5" name="table" type="text" class="span3" >
+			<input class="input-xlarge " id="min" placeholder="4:10,8:5" name="table" type="text" class="span3" value="{{@r.table}}" >
 		</div>
 	</div>
 
