@@ -59,6 +59,17 @@ class CustomerController{
 		echo Template::serve('user/listall.html');
 	}
 
+	function mobileLogin(){
+		$name = F3::get("GET.name");
+		$pwd = F3::get("GET.pwd");
+		$r = array();
+		if(User::valid($name, $pwd) !== false)
+			$r[] = 1;
+		else
+			$r[] = 0;
+		echo json_encode($r);
+	}
+
 	function addQueueMobile(){
 		$rid = F3::get("GET.rid");
 		$phone = F3::get("GET.phone");
