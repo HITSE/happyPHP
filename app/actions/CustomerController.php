@@ -60,14 +60,34 @@ class CustomerController{
 	}
 
 	function mobileLogin(){
-		$name = F3::get("GET.name");
+		$name = F3::get("GET.phone");
 		$pwd = F3::get("GET.pwd");
 		$r = array();
 		if(User::valid($name, $pwd) !== false)
-			$r[] = 1;
+			$r['answer'] = 1;
 		else
-			$r[] = 0;
-		echo json_encode($r);
+			$r['answer'] = 0;
+		$t = array();
+		$t[] = $r;
+		echo json_encode($t);
+	}
+
+	function mobileSignUp(){
+		$info = array();
+		$info['name'] = F3::get('GET.phone');
+		$info['pass'] = F3::get('GET.pwd');
+		//$info['pass'] = F3::get('POST.upass'); //TODO check pass
+		$info['phone'] = F3::get('GET.phone');
+		$info['type'] = 0;
+		$r = array();
+		
+		if(User::signUp($info) != -1)
+			$r['answer'] = 1;
+		else
+			$r['answer'] = 0;
+		$t = array();
+		$t[] = $r;
+		echo json_encode($t);
 	}
 
 	function addQueueMobile(){
