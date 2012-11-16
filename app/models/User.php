@@ -5,7 +5,7 @@ class User{
 	static function updateAdmin($rid){
 		$uid = F3::get("COOKIE.se_user_id");
 		$sql = "UPDATE admin SET rid = $rid WHERE uid = $uid";
-		setcookie('se_user_admin', $rid);
+		setcookie('se_user_admin', $rid, time() + 86400, '/');
 		DB::sql($sql);
 	}
 
@@ -62,24 +62,24 @@ class User{
 	}
 
 	static function login($user){
-		setcookie('se_user_id', $user['uid']);
-		setcookie('se_user_name', $user['name']);
-		setcookie('se_user_token', self::generate_login_token($user['uid']));
+		setcookie('se_user_id', $user['uid'], time() + 86400, '/');
+		setcookie('se_user_name', $user['name'], time() + 86400, '/');
+		setcookie('se_user_token', self::generate_login_token($user['uid']), time() + 86400, '/');
 
 		//Code::dump($user);
 
 		$rid = self::is_admin($user['uid']);
 		if($rid !== false){
-			setcookie('se_user_admin', $rid);
-			echo "<h1>set Cookie</h1>";
+			setcookie('se_user_admin', $rid, time() + 86400, '/');
+			//echo "<h1>set Cookie</h1>";
 		}
 	}
 
 	static function logout(){
-		setcookie('se_user_id', '', time() - 86400);
-		setcookie('se_user_name',  '', time() - 86400);
-		setcookie('se_user_token',  '', time() - 86400);
-		setcookie('se_user_admin',  '', time() - 86400);
+		setcookie('se_user_id', '', time() - 86400, '/');
+		setcookie('se_user_name',  '', time() - 86400, '/');
+		setcookie('se_user_token',  '', time() - 86400, '/');
+		setcookie('se_user_admin',  '', time() - 86400, '/');
 	}
 
 	// 判断是否是管理员用户，如果是餐厅管理员，

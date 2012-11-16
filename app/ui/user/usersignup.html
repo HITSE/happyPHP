@@ -7,19 +7,27 @@
 
 					<h3>新用户注册</h3>
 
+		<!--<F3:check if="{{@has_submit}}">-->
+			<!--<F3:check if="{{@success}}">-->
+				<!--<F3:true>-->
+					<!--<div class="alert alert-success" style="display:">-->
+						<!--<button class="close" data-dismiss="alert">&times;</button>-->
+						<!--<h4 class="alert-heading">操作成功！</h4>-->
+				<!--</F3:true>-->
+				<!--<F3:false>-->
+					<!--<div class="alert alert-error">-->
+						<!--<button class="close" data-dismiss="alert">&times;</button>-->
+						<!--<h4 class="alert-heading">操作失败！</h4>-->
+				<!--[></F3:false><]-->
+			<!--</F3:check>-->
+						<!--<p>{{@msg}}</p>-->
+					<!--</div>-->
+		<!--</F3:check>-->
+
 		<F3:check if="{{@has_submit}}">
-			<F3:check if="{{@success}}">
-				<F3:true>
-					<div class="alert alert-success" style="display:">
-						<button class="close" data-dismiss="alert">&times;</button>
-						<h4 class="alert-heading">操作成功！</h4>
-				</F3:true>
-				<F3:false>
 					<div class="alert alert-error">
 						<button class="close" data-dismiss="alert">&times;</button>
 						<h4 class="alert-heading">操作失败！</h4>
-				</F3:false>
-			</F3:check>
 						<p>{{@msg}}</p>
 					</div>
 		</F3:check>
