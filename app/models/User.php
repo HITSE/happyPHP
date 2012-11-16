@@ -9,9 +9,21 @@ class User{
 		DB::sql($sql);
 	}
 
+	static function exist($name, $value, $table){
+		$sql = "SELECT * FROM $table WHERE $name = $value";
+		$r = DB::sql($sql);
+
+		if(count($r) > 0)
+			return true;
+		else
+			return false;
+	}
+
 	//根据info数组插入数据表,并执行登录操作
 	static function signUp($info){
 		//var_dump($info);
+		if(self::exist("name", $info['name'], "user"))
+			return -2;
 		$r = DB::sql("INSERT INTO user VALUES ('', :uname, :upass);",
 			array( ':uname' => $info['name'], ':upass' => $info['pass'])
 		);

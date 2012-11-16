@@ -3,13 +3,15 @@ class Queue{
 
 	static function arrive($phone){
 		// send msg
-		//$msg = new PHPFetion("15114588070", "");
 		$sql = "UPDATE queue SET status = 'arrived' WHERE phone = $phone AND status = 'smsed'";
 		$r = DB::sql($sql);
 	}
 
 	static function notify($phone){
 		// send msg
+		$msg = new PHPFetion("15114588070", "731yichun623");
+		$msg->send($phone, "请与30分钟内到达,祝您用餐愉快");
+
 		$sql = "UPDATE queue SET status = 'smsed' WHERE phone = $phone AND status = 'queuing'";
 		$r = DB::sql($sql);
 	}
@@ -46,11 +48,14 @@ class Queue{
 	static function addItem($rid, $phone, $num){
 		$time = time();
 		$table = Table::getTable($rid, $num);
+		if($table == -1)
+			return false;
 		
 		$sql = "INSERT INTO queue VALUES 
 			('', $rid, '$table', '$phone', '$num', '$time', '', '', 'queuing')";
 		//echo $sql;
 		$r = DB::sql($sql);
+		return true;
 	}
 
 	static function getNextCustomer(){

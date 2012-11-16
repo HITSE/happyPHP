@@ -4,7 +4,7 @@ class Table{
 
 	static function setTable($rid, $t){
 		$a = explode(";", $t);
-		Code::dump($a);
+		//Code::dump($a);
 		foreach($a as $v){
 			$b = explode(":", $v);
 			$c = $b[0];

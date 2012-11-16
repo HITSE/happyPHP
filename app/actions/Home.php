@@ -54,20 +54,17 @@ class Home{
 
 		//if(F3::get('GET.mobile') != false){
 			// WEB客户端
-		if($uid != -1){
+		if($uid != -2){
 			//TODO 注册成功提示
 			F3::reroute("/");
 			//echo Template::serve('index.html');
 		}else{
 			F3::set("has_submit", "true");
 			F3::set("success", "false");
-			F3::set("msg", "注册失败，请稍侯重试");
+			F3::set("msg", "该手机号码已注册");
+			F3::set("p", F3::get('POST'));
 			echo Template::serve('user/usersignup.html');
 		}
-		//}else{
-			// Mobile客户端
-			//echo $uid;
-		//}
 	}
 
 	function noaccess()

@@ -81,7 +81,7 @@ class CustomerController{
 		$info['type'] = 0;
 		$r = array();
 		
-		if(User::signUp($info) != -1)
+		if(User::signUp($info) != -2)
 			$r['answer'] = 1;
 		else
 			$r['answer'] = 0;
@@ -94,7 +94,15 @@ class CustomerController{
 		$rid = F3::get("GET.rid");
 		$phone = F3::get("GET.phone");
 		$num = F3::get("GET.num");
-		Queue::addItem($rid, $phone, $num);
+		$s = Queue::addItem($rid, $phone, $num);
+		$r = array();
+		if($s === true)
+			$r['answer'] = 1;
+		else
+			$r['answer'] = 0;
+		$t = array();
+		$t[] = $r;
+		echo json_encode($t);
 	}
 
 	function listAllMobile(){

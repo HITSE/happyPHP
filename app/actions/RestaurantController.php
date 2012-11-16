@@ -18,12 +18,10 @@ class RestaurantController{
 	}
 
 	function method(){
-
 			F3::reroute('/admin');
 	}
 
 	function listQueue(){
-
 		$rida = F3::get("COOKIE");
 		//Code::dump($rida);
 		$rid = $rida['se_user_admin'];

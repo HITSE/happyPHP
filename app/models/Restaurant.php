@@ -5,6 +5,7 @@ class Restaurant{
 	}
 
 	static function signUp($i){
+		//Code::dump($i);
 		$sql = "INSERT INTO restaurant VALUES ('', '{$i['name']}', '{$i['phone']}',
 				'{$i['addr']}', '{$i['describe']}', '{$i['time']}', '{$i['table']}')";
 		DB::sql($sql);
