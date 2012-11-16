@@ -46,16 +46,18 @@ class Queue{
 	}
 
 	static function addItem($rid, $phone, $num){
+		if(User::exist("phone", $phone, "queue", "status = queuing"))
+			return -2
 		$time = time();
 		$table = Table::getTable($rid, $num);
 		if($table == -1)
-			return false;
+			return -1;
 		
 		$sql = "INSERT INTO queue VALUES 
 			('', $rid, '$table', '$phone', '$num', '$time', '', '', 'queuing')";
 		//echo $sql;
 		$r = DB::sql($sql);
-		return true;
+		return 1;
 	}
 
 	static function getNextCustomer(){

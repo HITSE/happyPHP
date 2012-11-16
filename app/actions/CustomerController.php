@@ -31,9 +31,7 @@ class CustomerController{
 		$phone = F3::get("GET.phone");
 		$num = F3::get("GET.num");
 		$r = Queue::addItem($rid, $phone, $num);
-		Code::dump($r);
-		$a = $r === true ? '1' : '0';
-		F3::reroute("/user/list?a=$a");
+		F3::reroute("/user/list?a=$r");
 	}
 
 	function showRestaurantDetail(){
@@ -60,10 +58,14 @@ class CustomerController{
 			F3::set("has_submit", true);
 			F3::set("success", true);
 			F3::set("msg", "请等侯餐厅的短信就餐通知");
-		}else if($a === '0'){
+		}else if($a === '-1'){
 			F3::set("has_submit", true);
 			F3::set("success", false);
 			F3::set("msg", "您的就餐人数超过餐厅单桌最大可用餐人数，请与餐厅电话联系");
+		}else if($a === '-2'){
+			F3::set("has_submit", true);
+			F3::set("success", false);
+			F3::set("msg", "您已参加其他餐馆的排队");
 		}
 
 		F3::set("all",$all);
@@ -108,10 +110,12 @@ class CustomerController{
 		$num = F3::get("GET.num");
 		$s = Queue::addItem($rid, $phone, $num);
 		$r = array();
-		if($s === true)
+		if($s === 1) // 成功
 			$r['answer'] = 1;
-		else
+		else if($s == -1) // 桌子太小了
 			$r['answer'] = 0;
+		else if($s == -2) // 已参加其他排队
+			$r['answer'] = -1;
 		$t = array();
 		$t[] = $r;
 		echo json_encode($t);

@@ -9,8 +9,8 @@ class User{
 		DB::sql($sql);
 	}
 
-	static function exist($name, $value, $table){
-		$sql = "SELECT * FROM $table WHERE $name = $value";
+	static function exist($name, $value, $table, $con = "1"){
+		$sql = "SELECT * FROM $table WHERE $name = $value AND $con";
 		$r = DB::sql($sql);
 
 		if(count($r) > 0)
