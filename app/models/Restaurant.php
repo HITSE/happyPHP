@@ -4,6 +4,20 @@ class Restaurant{
 	function __construct(){
 	}
 
+	static function getAddr($rid){
+		$r = DB::sql('SELECT addr FROM restaurant WHERE id = :id', array(':id' => $id));
+		if(count($r) > 0)
+			return $r[0]['addr'];
+		return false;
+	}
+
+	static function getName($rid){
+		$r = DB::sql('SELECT name FROM restaurant WHERE id = :id', array(':id' => $id));
+		if(count($r) > 0)
+			return $r[0]['name'];
+		return false;
+	}
+
 	static function signUp($i){
 		//Code::dump($i);
 		$sql = "INSERT INTO restaurant VALUES ('', '{$i['name']}', '{$i['phone']}',

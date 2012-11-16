@@ -9,8 +9,11 @@ class Queue{
 
 	static function notify($phone){
 		// send msg
+		$rid = F3::get("COOKIE.se_user_admin");
+		$name = Restaurant::getName($rid);
+		$addr = Restaurant::getAddr($rid);
 		$msg = new PHPFetion("15114588070", "731yichun623");
-		$msg->send($phone, "请与30分钟内到达,祝您用餐愉快");
+		$msg->send($phone, "参加您感谢<$name>排队，请您与30分钟内到达<$addr>用餐，祝您用餐愉快！");
 
 		$sql = "UPDATE queue SET status = 'smsed' WHERE phone = $phone AND status = 'queuing'";
 		$r = DB::sql($sql);
@@ -46,7 +49,7 @@ class Queue{
 	}
 
 	static function addItem($rid, $phone, $num){
-		if(User::exist("phone", $phone, "queue", "status = queuing"))
+		if(User::exist("phone", $phone, "queue", "status = 'queuing'"))
 			return -2;
 		$time = time();
 		$table = Table::getTable($rid, $num);
