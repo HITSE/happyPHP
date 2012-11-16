@@ -4,14 +4,14 @@ class Restaurant{
 	function __construct(){
 	}
 
-	static function getAddr($rid){
+	static function getAddr($id){
 		$r = DB::sql('SELECT addr FROM restaurant WHERE id = :id', array(':id' => $id));
 		if(count($r) > 0)
 			return $r[0]['addr'];
 		return false;
 	}
 
-	static function getName($rid){
+	static function getName($id){
 		$r = DB::sql('SELECT name FROM restaurant WHERE id = :id', array(':id' => $id));
 		if(count($r) > 0)
 			return $r[0]['name'];
