@@ -1,33 +1,57 @@
 <F3:include href="common/header.html" />
 
 <script>
-	//var a;
-	//$(function(){
+<F3:check if="{{@auto=='true'}}">
+	<F3:true>
+		var a = 1;
+	</F3:true>
+	<F3:false>
+		var a = 0;
+	</F3:false>
+</F3:check>
 
-		//$("#m").click(function(event){
-		//	a = $(this).find(".active").attr("id");
-		//	$.post("{{@WEB_ROOT}}admin/method"
-		//	);
-	//	});
-		
-	//});
+	$(function(){
+		showTime();
+	});
+
+function myrefresh() {
+	if(a == 1)
+		window.location.reload();
+}
+
+function showTime() {
+	var d = new Date();
+	var s = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+	$("#time").html(s);
+	setTimeout('showTime()',1000);
+}
+setTimeout('myrefresh()',5000); //指定10秒刷新一次
 </script>
 
 	<div class="container">
 		<div class="row">
 			<div class="span7 offset2">
+				<h2>{{@i.name}}</h2>
+				<p>排队人数：<span class="badge badge-info">{{@i.num}}</span>&nbsp;<span class="label" id="time"></span></p>
 
-				<div id="m" class="btn-group" data-toggle="buttons-radio">
-		<F3:check if="{{@auto}}">
+				<div>
+
+				<div style="float:left">页面刷新方式：</div>
+				<div style="float:left" id="m" class="btn-group" data-toggle="buttons-radio">
+		<F3:check if="{{@auto=='true'}}">
 			<F3:true>
 					<a type="button" class="active btn" href="#">自动</a>
-					<a type="button" class="btn" href="{{@WEB_ROOT}}admin/method?m=man">手动</a>
 			</F3:true>
 			<F3:false>
-					<a type="button" class="btn" href="{{@WEB_ROOT}}admin/method?m=auto">自动</a>
-					<a type="button" class="active btn" href="#">手动</a>
+					<a type="button" class="btn" href="{{@WEB_ROOT}}admin?m=auto">自动</a>
 			</F3:false>
 		</F3:check>
+					<a type="button" class="btn" href="{{@WEB_ROOT}}admin?m=man">手动</a>
+				</div>
+				
+				</div>
+
+				<div style="clear:both">
 				</div>
 
 			<F3:repeat group="{{@all}}" value="{{@p}}">
@@ -38,7 +62,7 @@
 						<tr>
 							<th>序号</th>
 							<th>排队时间</th>
-							<th>人数</th>
+							<th>就餐人数</th>
 							<th>手机号码</th>
 							<th>操作</th>
 						</tr>

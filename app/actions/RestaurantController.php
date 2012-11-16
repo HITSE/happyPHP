@@ -18,7 +18,7 @@ class RestaurantController{
 	}
 
 	function method(){
-			F3::reroute('/admin');
+		F3::reroute('/admin');
 	}
 
 	function listQueue(){
@@ -29,9 +29,17 @@ class RestaurantController{
 			F3::reroute("/admin/signup");
 
 		$all = Queue::getAll($rid);
+		$info = Restaurant::getDetail($rid);
 	
-		F3::set("auto", "true");
+		$a = F3::get("GET.m");
+
+		if($a == "man")
+			F3::set("auto", "false");
+		else
+			F3::set("auto", "true");
+
 		F3::set("all", $all);
+		F3::set("i", $info);
 		echo Template::serve('admin/listqueue.html');
 	}
 

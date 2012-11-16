@@ -6,11 +6,13 @@ class Table{
 		$a = explode(";", $t);
 		//Code::dump($a);
 		foreach($a as $v){
+			if($v == "")
+				continue;
 			$b = explode(":", $v);
+			//Code::dump($b);
 			$c = $b[0];
 			$n = $b[1];
-			$sql = "INSERT INTO `table` VALUES 
-				('$rid', '$c', 0, '$n')";
+			$sql = "INSERT INTO `table` VALUES ('$rid', '$c', 0, '$n')";
 			DB::sql($sql);
 		}
 	}

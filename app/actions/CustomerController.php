@@ -30,8 +30,10 @@ class CustomerController{
 		$rid = F3::get("GET.rid");
 		$phone = F3::get("GET.phone");
 		$num = F3::get("GET.num");
-		Queue::addItem($rid, $phone, $num);
-		F3::reroute('/user/list');
+		$r = Queue::addItem($rid, $phone, $num);
+		Code::dump($r);
+		$a = $r === true ? '1' : '0';
+		F3::reroute("/user/list?a=$a");
 	}
 
 	function showRestaurantDetail(){
@@ -53,6 +55,16 @@ class CustomerController{
 		else if($order == "people")
 			uasort($all, "sort_people");
 		//Code::dump($all);
+		$a = F3::get("GET.a");
+		if($a === '1'){
+			F3::set("has_submit", true);
+			F3::set("success", true);
+			F3::set("msg", "请等侯餐厅的短信就餐通知");
+		}else if($a === '0'){
+			F3::set("has_submit", true);
+			F3::set("success", false);
+			F3::set("msg", "您的就餐人数超过餐厅单桌最大可用餐人数，请与餐厅电话联系");
+		}
 
 		F3::set("all",$all);
 		//$pagination = Sys::pagination(

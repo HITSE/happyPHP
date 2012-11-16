@@ -5,6 +5,24 @@
 		<div class="row">
 			<div class="span7 offset2">
 
+		<F3:check if="{{@has_submit}}">
+			<F3:true>
+			<F3:check if="{{@success}}">
+				<F3:true>
+					<div class="alert alert-success">
+						<button class="close" data-dismiss="alert">&times;</button>
+						<h4 class="alert-heading">加入排队成功！</h4>
+				</F3:true>
+				<F3:false>
+					<div class="alert alert-error">
+						<button class="close" data-dismiss="alert">&times;</button>
+						<h4 class="alert-heading">排队失败！</h4>
+				</F3:false>
+			</F3:check>
+						<p>{{@msg}}</p>
+					</div>
+			</F3:true>
+			<F3:false>
 				<div style="position:relative;zoom:1">
 					<h3>{{@list_title}}</h3>
 					<h4 style="position:absolute; text-align:right; right:0; bottom:0">
@@ -12,7 +30,9 @@
 					<a class="btn btn-inverse" href="{{@WEB_ROOT}}user/list?order=people">按排队人数排序</a>
 					<a class="btn btn-inverse" href="{{@WEB_ROOT}}user/list?order=time">按等待时间排序</a>
 				</div>
+			</F3:false>
 
+		</F3:check>
 				<table class="table">
 					<thead>
 						<tr>
