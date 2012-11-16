@@ -21,8 +21,19 @@ function myrefresh() {
 
 function showTime() {
 	var d = new Date();
-	var s = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
-	$("#time").html(s);
+	
+	var h = d.getHours();
+	var m = d.getMinutes();
+	var s = d.getSeconds();
+
+	var hs = h > 9 ? h : "0"+h;
+	var ms = m > 9 ? m : "0"+m;
+	var ss = s > 9 ? s : "0"+s;
+
+	var str = hs+":"+ms+":"+ss;
+
+	$("#time").html(str);
+
 	setTimeout('showTime()',1000);
 }
 setTimeout('myrefresh()',5000); //指定10秒刷新一次

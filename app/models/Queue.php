@@ -47,7 +47,7 @@ class Queue{
 
 	static function addItem($rid, $phone, $num){
 		if(User::exist("phone", $phone, "queue", "status = queuing"))
-			return -2
+			return -2;
 		$time = time();
 		$table = Table::getTable($rid, $num);
 		if($table == -1)
