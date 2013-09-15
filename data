@@ -38,6 +38,7 @@
 ./app/ui/index.html
 ./app/cfg
 ./app/cfg/routes.cfg
+./app/cfg/setup.cfg
 ./app/lib
 ./app/lib/matrix.php
 ./app/lib/code.php

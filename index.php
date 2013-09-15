@@ -7,7 +7,21 @@ require __DIR__.'/app/lib/base.php';
 F3::config('app/cfg/setup.cfg');
 F3::config('app/cfg/routes.cfg');
 
-$services_json = json_decode(getenv("VCAP_SERVICES"),true);
+# Check for AppFogs ENV variable
+if( getenv("VCAP_SERVICES") ) {
+    $json = getenv("VCAP_SERVICES");
+} 
+# Check for local file, placed by: af tunnel
+else if( file_exists('af_vcap_services') ) {
+    $json = file_get_contents('af_vcap_services');
+} 
+# No DB credentials
+else {
+    throw new Exception("No Database Information Available.", 1);
+}
+
+# Decode JSON and gather DB Info
+$services_json = json_decode($json,true);
 $mysql_config = $services_json["mysql-5.1"][0]["credentials"];
 
 $username = $mysql_config["username"];
