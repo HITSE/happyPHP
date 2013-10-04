@@ -124,5 +124,12 @@ class User{
 		$valid = self::generate_login_token($uid);
 		return $token == $valid;
 	}
+	//add
+	static function getUserInfo($uid){
+		$sql = "SELECT * FROM user WHERE uid = $uid";
+		//$u=DB::sql('SELECT * FROM user WHERE uid = :uid');
+		$u=DB::sql($sql);
+		return $u;
+	}
 
 }

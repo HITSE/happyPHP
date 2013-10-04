@@ -22,7 +22,7 @@ class CustomerController{
 		//}else{
 			//F3::reroute('/login');
 		//}
-		F3::set('route', 'user');
+		F3::set('route', 'user/list');
 	}
 
 
@@ -134,6 +134,41 @@ class CustomerController{
 		$a = array($r);
 		echo json_encode($a);
 	}
+	//add
+	function inquireInfo(){
+		$uid=F3::get("COOKIE.se_user_id");
+		$u=User::getUserInfo($uid);
+		F3::set("uname", $u[0]['name']);
+		//$phone=F3::get("GET.phone");
+		//$phone="2222";
+		$phone=F3::get("COOKIE.se_user_name");
+		$s=Queue::getUserStatus($phone);
+		
+		switch ($s[0]['status']) {
+			case 'queuing':
+				$status="排队中";
+				break;
+			case 'arrived':
+				$status="已到达";
+				break;
+			case 'finshed':
+				$status="已超时";
+				break;
+			case 'smsed':
+				$status="排队消息已发送";
+				break;
+			case 'quited':
+				$status="排队已撤销";
+				break;
+			default:
+				$status="未参加排队";
+				break;
+		}
+		F3::set("ustatus", $status);
+		F3::set("unum",$s[0]['num']);
+		echo Template::serve('user/inquiry.html');
+	}
+	//add
 
 
 }
