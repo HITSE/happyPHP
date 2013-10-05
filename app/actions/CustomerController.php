@@ -18,8 +18,11 @@ class CustomerController{
 		if(User::is_login()){
 			F3::set("login", "true");
 			F3::set("title", "我要排队");
-			if(User::is_admin()!==false)
+			if(User::is_admin()!==false){
 				F3::set("admin","true");
+				if(Admin::is_rest_signed()!==false)
+					F3::set('rest_signed', 'true');
+			}
 		}
 		//}else{
 			//F3::reroute('/login');

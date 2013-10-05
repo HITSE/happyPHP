@@ -25,10 +25,10 @@
 					<a class="brand" href="{{@WEB_ROOT}}">HappyQueue</a>
 					<ul class="nav">
 						<!--<li {{ @route[0] == '' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}"><i class="icon-search"></i> 首页</a></li>-->
-						<li {{ @route == 'user/list' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}user/list"><i class="icon-book"></i> 我要排队</a></li>
+						<li {{ @route == 'user/list' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}user/list"><i class="icon-bell"></i> 我要排队</a></li>
 						<F3:check if="{{@admin}}">
 							<F3:true>
-								<li {{ @route == 'admin' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}admin"><i class="icon-user"></i> 餐厅管理</a></li>
+								<li {{ @route == 'admin' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}admin"><i class="icon-glass"></i> 餐厅管理</a></li>
 							</F3:true>
 						</F3:check>
 						<li {{ @route == 'about' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}about"><i class="icon-tasks"></i> 关于我们</a></li>
@@ -47,18 +47,18 @@
 					<ul class="nav pull-right">
 				<F3:check if="{{@login}}">
 					<F3:true>
-
-						<F3:check if="{{@admin}}">
-							<F3:true>
-							<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-wrench"></i> 设置<b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li><a href="{{@WEB_ROOT}}admin/edit"><i class="icon-wrench"></i> 基本信息</a></li>
-									<li><a href="{{@WEB_ROOT}}admin/edit/time"><i class="icon-user"></i> 等待时间</a></li>
-									<!--<li class="divider"></li>-->
-								</ul>
-							</li>
-							</F3:true>
-						</F3:check>
+						<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-wrench"></i> 设置<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<F3:check if="{{@rest_signed}}">
+									<F3:true>
+										<li><a href="{{@WEB_ROOT}}admin/edit"><i class="icon-info-sign"></i> 餐厅信息</a></li>
+										<li><a href="{{@WEB_ROOT}}admin/edit/time"><i class="icon-time"></i> 等待时间</a></li>
+									</F3:true>
+								</F3:check>
+								<li><a href="{{@WEB_ROOT}}changpass"><i class="icon-cog"></i> 修改密码</a></li>
+								<!--<li class="divider"></li>-->
+							</ul>
+						</li>
 						<li><a href="{{@WEB_ROOT}}logout">注销</a></li>
 					</F3:true>
 					<F3:false>

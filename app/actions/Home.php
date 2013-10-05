@@ -5,8 +5,11 @@ class Home{
 	function __construct(){
 		if(User::is_login()){
 			F3::set("login", "true");
-			if(User::is_admin()!==false)
+			if(User::is_admin()!==false){
 				F3::set("admin","true");
+				if(Admin::is_rest_signed()!==false)
+					F3::set('rest_signed', 'true');
+			}
 		}
 	}
 
@@ -42,6 +45,11 @@ class Home{
 
 	function showSignUp(){
 		echo Template::serve('user/usersignup.html');
+	}
+
+	function changpass(){
+		//F3::reroute('/');
+		echo Template::serve('user/changepass.html');
 	}
 
 	function signUp(){
