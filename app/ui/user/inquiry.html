@@ -13,12 +13,18 @@
 				<td>{{@ustatus}}</td>
 			</tr>
 			<tr>
+				<td>餐厅名称：</td>
+				<td>{{@rname}}</td>
+			</tr>
+			<tr>
 				<td>定餐人数：</td>
 				<td>{{@unum}}</td>
 			</tr>
 			<tr>
 				<td>撤销排队：</td>
-				<td></td>
+				<td>
+					<a class="btn" {{ @cancel == 'cancel' ? 'href="/user/inquiry?uorder=cancel"' : 'disabled="disabled"'}}>{{@ucancelName}}</a>
+				</td>
 			</tr>
 		</table>
 		</div>
