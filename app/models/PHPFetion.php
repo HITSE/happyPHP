@@ -174,6 +174,22 @@ class PHPFetion
         return $result;
     }
 
+    public function addfriend($name, $phone) {
+        $uri = '/im/user/addFriendSubmit.action?t='.time().'000';
+        //echo $uri."\n"; 
+        $data = 'number='.$phone.'&type=0';
+        //echo $data."\n";
+        $this->_postWithCookie($uri, $data);   
+
+        $uri = '/im/user/insertfriendsubmit.action?t='.time().'500';
+        //echo $uri."\n"; 
+        $data = 'nickname='.$name.'&number='.$phone.'&type=0';
+        //echo $data."\n";
+        $result = $this->_postWithCookie($uri, $data);
+        //return;           
+        return $result;
+    }
+
     /**
      * 给自己发飞信
      * @param string $message

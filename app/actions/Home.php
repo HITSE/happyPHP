@@ -56,8 +56,11 @@ class Home{
 			// WEB客户端
 		if($uid != -2){
 			//TODO 注册成功提示
-			F3::reroute("/");
-			//echo Template::serve('index.html');
+			//F3::reroute("/");
+			//$msg = new PHPFetion("15114588070", "731yichun623");
+			$msg = new PHPFetion(F3::get('Fetionphone'), F3::get('Fetionpasswd'));
+			$msg->addfriend("排队也快乐", $info['phone']);
+			echo Template::serve('user/signupsuccess.html');
 		}else{
 			F3::set("has_submit", "true");
 			F3::set("success", "false");
@@ -65,6 +68,10 @@ class Home{
 			F3::set("p", F3::get('POST'));
 			echo Template::serve('user/usersignup.html');
 		}
+	}
+
+	function usersuccesstest(){
+		echo Template::serve('user/signupsuccess.html');
 	}
 
 	function noaccess()
