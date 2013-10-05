@@ -5,6 +5,8 @@ class Home{
 	function __construct(){
 		if(User::is_login()){
 			F3::set("login", "true");
+			if(User::is_admin()!==false)
+				F3::set("admin","true");
 		}
 	}
 

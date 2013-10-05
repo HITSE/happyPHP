@@ -1,0 +1,35 @@
+<F3:include href="common/header.html" />
+
+<div class="container">
+	<div class="row">
+		<div class="span8 offset2">
+		<table>
+			<tr>
+				<td>用&nbsp;户&nbsp;名&nbsp;：</td>
+				<td>{{@uname}}</td>
+			</tr>
+			<tr>
+				<td>排队状态：</td>
+				<td>{{@ustatus}}</td>
+			</tr>
+			<tr>
+				<td>餐厅名称：</td>
+				<td>{{@rname}}</td>
+			</tr>
+			<tr>
+				<td>定餐人数：</td>
+				<td>{{@unum}}</td>
+			</tr>
+			<tr>
+				<td>撤销排队：</td>
+				<td>
+					<a class="btn" {{ @cancel == 'cancel' ? 'href="/user/inquiry?uorder=cancel"' : 'disabled="disabled"'}}>{{@ucancelName}}</a>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+</div>
+
+<F3:include href="common/footer.html" />
+

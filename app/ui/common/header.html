@@ -25,14 +25,29 @@
 					<a class="brand" href="{{@WEB_ROOT}}">HappyQueue</a>
 					<ul class="nav">
 						<!--<li {{ @route[0] == '' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}"><i class="icon-search"></i> 首页</a></li>-->
-						<li {{ @route == 'user' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}user/list"><i class="icon-book"></i> 我要排队</a></li>
-						<li {{ @route == 'admin' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}admin"><i class="icon-user"></i> 餐厅管理</a></li>
+						<li {{ @route == 'user/list' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}user/list"><i class="icon-book"></i> 我要排队</a></li>
+						<F3:check if="{{@admin}}">
+							<F3:true>
+								<li {{ @route == 'admin' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}admin"><i class="icon-user"></i> 餐厅管理</a></li>
+							</F3:true>
+						</F3:check>
 						<li {{ @route == 'about' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}about"><i class="icon-tasks"></i> 关于我们</a></li>
+						<!--add-->
+						<F3:check if="{{@login}}">
+							<F3:true>
+								<li {{ @route == 'user/inquiry' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}user/inquiry"><i class="icon-remove"></i> 查询&撤销</a></li>
+							</F3:true>
+						</F3:check>
+						<!--add-->
 					</ul>
 
+					
+				
+				
 					<ul class="nav pull-right">
 				<F3:check if="{{@login}}">
 					<F3:true>
+
 						<F3:check if="{{@admin}}">
 							<F3:true>
 							<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-wrench"></i> 设置<b class="caret"></b></a>

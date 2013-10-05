@@ -80,4 +80,18 @@ class Queue{
 		);
 		return $rs[0]["COUNT(*)"];
 	}
+	//add
+	static function getUserStatus($phone){
+		$max_t=DB::sql('SELECT MAX(time) as time FROM queue WHERE phone = :phone',array(':phone'=>$phone));
+		if($max_t==-1)
+			return false;
+		$max_time=$max_t[0]['time'];
+		$s=DB::sql('SELECT * FROM queue WHERE time = :max_time and phone =:phone',array(':max_time'=>$max_time,':phone'=>$phone));
+		return $s;
+	}
+	static function cancelBook($qid){
+		$sql = "UPDATE queue SET status = 'quited' WHERE qid = $qid";
+		$r = DB::sql($sql);
+	}
+	//add
 }
