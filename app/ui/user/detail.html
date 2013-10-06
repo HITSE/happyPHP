@@ -18,8 +18,8 @@
 			<input type="hidden" name="phone" value="{{@phone}}">
 	</div>
 	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 		<input type="submit" class="btn btn-primary" value="提交">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 	</div>
 	
 		</form>
@@ -28,29 +28,17 @@
 <div id="phone" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="myModalLabel">请输入排队信息</h3>
+		<h3 id="myModalLabel">请先注册</h3>
 	</div>
-		<form action="{{@WEB_ROOT}}user/add" method="get">
+		<form action="{{@WEB_ROOT}}signup" method="get">
 	<div class="modal-body">
 			<div class="control-group">
-				<label class="control-label">联系电话</label>
-				<div class="controls">
-					<input class="input-xlarge" id="time" name="phone" type="text" class="span3" >
-				</div>
+				<p>注册之后就可以享受我们的短信通知服务.</p>
 			</div>
-
-			<div class="control-group">
-				<label class="control-label">用餐人数</label>
-				<div class="controls">
-					<input class="input-xlarge" id="comment" name="num" type="text" class="span3" >
-				</div>
-			</div>
-
-			<input type="hidden" name="rid" value="{{@rid}}">
 	</div>
 	<div class="modal-footer">
+		<input type="submit" class="btn btn-primary" value="注册">
 		<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-		<input type="submit" class="btn btn-primary" value="提交">
 	</div>
 	
 		</form>

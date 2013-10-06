@@ -31,7 +31,6 @@
 								<li {{ @route == 'admin' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}admin"><i class="icon-glass"></i> 餐厅管理</a></li>
 							</F3:true>
 						</F3:check>
-						<li {{ @route == 'about' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}about"><i class="icon-tasks"></i> 关于我们</a></li>
 						<!--add-->
 						<F3:check if="{{@login}}">
 							<F3:true>
@@ -39,6 +38,7 @@
 							</F3:true>
 						</F3:check>
 						<!--add-->
+						<li {{ @route == 'about' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}about"><i class="icon-tasks"></i> 关于我们</a></li>
 					</ul>
 
 					

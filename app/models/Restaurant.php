@@ -20,9 +20,9 @@ class Restaurant{
 
 	static function signUp($i){
 		//Code::dump($i);
-		$sql = "INSERT INTO restaurant VALUES ('', '{$i['name']}', '{$i['phone']}',
-				'{$i['addr']}', '{$i['describe']}', '{$i['time']}', '{$i['table']}')";
-		DB::sql($sql);
+		DB::sql("INSERT INTO restaurant VALUES ('', :name, :phone, :addr, :describe, :time, :table);",
+			array(':name' => $i['name'], ':phone' => $i['phone'], ':addr' => $i['addr'], ':describe' => $i['describe'], ':time' => $i['time'], ':table' => $i['table'])
+			);
 		return DB::get_insert_id();
 	}
 
@@ -77,17 +77,13 @@ class Restaurant{
 	static function updateTime($t){
 		$id = F3::get("COOKIE.se_user_admin");
 
-		$sql = "UPDATE restaurant SET `time` = '{$t}' WHERE id = '$id';";
-		DB::sql($sql);
+		DB::sql("UPDATE restaurant SET time = :time WHERE id = :id;", array(':time' => $t, ':id' => $id));
 	}
 
 	static function update($a){
 		$id = F3::get("COOKIE.se_user_admin");
 
-		$sql = "UPDATE restaurant SET name = '{$a['name']}', phone = '{$a['phone']}',
-					addr = '{$a['addr']}', `describe` = '{$a['describe']}',
-					`table` =  '{$a['table']}' WHERE id = '$id';";
-		DB::sql($sql);
+		DB::sql("UPDATE restaurant SET name = :name, phone = :phone, addr = :addr, `describe` = :describe, `table` = :table WHERE id = :id;", array(':name' => $a['name'], ':phone' => $a['phone'], ':addr' => $a['addr'], ':describe' => $a['describe'], ':table' => $a['table'], ':id' => $id));
 
 		$sql = "DELETE FROM `table` WHERE rid = $id";
 		DB::sql($sql);
