@@ -44,14 +44,17 @@ class Home{
 	}
 
 	function showSignUp(){
+		F3::set('title',"注册");
 		echo Template::serve('user/usersignup.html');
 	}
 
 	function showchangepass(){
+		F3::set('title',"修改密码");
 		echo Template::serve('user/changepass.html');
 	}
 
 	function signUp(){
+		F3::set('title',"注册");
 		$info = array();
 		$info['name'] = F3::get('POST.uphone');
 		$info['pass'] = F3::get('POST.upass');
@@ -86,6 +89,7 @@ class Home{
 	}
 
 	function changepass(){
+		F3::set('title',"修改密码");
 		$info = array();
 		$info['uid'] = F3::get('COOKIE.se_user_id');
 		$info['phone'] = F3::get('COOKIE.se_user_name');

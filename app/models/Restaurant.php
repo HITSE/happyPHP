@@ -18,6 +18,13 @@ class Restaurant{
 		return false;
 	}
 
+	static function getphone($id){
+		$r = DB::sql('SELECT phone FROM restaurant WHERE id = :id', array(':id' => $id));
+		if(count($r) > 0)
+			return $r[0]['phone'];
+		return false;
+	}
+
 	static function signUp($i){
 		//Code::dump($i);
 		DB::sql("INSERT INTO restaurant VALUES ('', :name, :phone, :addr, :describe, :time, :table);",

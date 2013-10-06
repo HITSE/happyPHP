@@ -5,6 +5,10 @@ class Queue{
 		// send msg
 		$sql = "UPDATE queue SET status = 'arrived' WHERE phone = $phone AND status = 'smsed'";
 		$r = DB::sql($sql);
+		$rid = F3::get("COOKIE.se_user_admin");
+		$name = Restaurant::getName($rid);
+		$msg = new PHPFetion(F3::get('Fetionphone'), F3::get('Fetionpasswd'));
+		$msg->send($phone, "您的排队已被<$name>确认为到达, 感谢您的参与, 祝您用餐愉快! ");
 	}
 
 	static function notify($phone){
@@ -13,10 +17,22 @@ class Queue{
 		$name = Restaurant::getName($rid);
 		$addr = Restaurant::getAddr($rid);
 		$msg = new PHPFetion(F3::get('Fetionphone'), F3::get('Fetionpasswd'));
-		$msg->send($phone, "感谢您参加<$name>排队，请您与30分钟内到达<$addr>用餐，祝您用餐愉快！");
+		$msg->send($phone, "感谢您耐心参加<$name>的排队，请您与30分钟内到达<$addr>用餐，逾期可能会被商家取消. ");
+		$rphone = Restaurant::getphone($rid);
+		$msg->send($rphone, "吃货<$phone>已收到短信, 将在30分钟内速速赶来, 还不快把好酒好菜备好!");
 
 		$sql = "UPDATE queue SET status = 'smsed' WHERE phone = $phone AND status = 'queuing'";
 		$r = DB::sql($sql);
+	}
+
+	static function notice_rest_of_canceled($queue_line){
+		// send msg
+		$rid = $queue_line[0]['rid'];
+		$rphone = Restaurant::getphone($rid);
+		$uphone = $queue_line[0]['phone'];
+
+		$msg = new PHPFetion(F3::get('Fetionphone'), F3::get('Fetionpasswd'));
+		$msg->send($rphone, "吃货<$uphone>已取消排队, 敬请注意!");
 	}
 
 	static function getAll($rid){

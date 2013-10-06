@@ -150,6 +150,8 @@ class CustomerController{
 		{
 			$s=Queue::getUserStatus($phone);
 			$qid=$s[0]['qid'];
+			if($s[0]['status'] == 'smsed')
+				Queue::notice_rest_of_canceled($s);
 			Queue::cancelBook($qid);
 		}
 		$s=Queue::getUserStatus($phone);
