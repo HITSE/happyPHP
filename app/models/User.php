@@ -39,6 +39,7 @@ class User{
 			$r = DB::sql("INSERT INTO customer VALUES (:phone, :point, :uid);",
 				array(':phone' => $info['phone'] , ':point' => '0', ':uid' => $uid)
 			);
+			//Code::dump($r);
 		}
 		self::login(array('uid' => $uid, 'name' => $info['name']));
 		return $uid;

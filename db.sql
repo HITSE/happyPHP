@@ -54,7 +54,7 @@ INSERT INTO `admin` (`uid`, `rid`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `customer` (
-  `phone` int(11) NOT NULL,
+  `phone` varchar(12) NOT NULL,
   `point` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   PRIMARY KEY (`phone`)

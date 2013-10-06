@@ -58,6 +58,7 @@ class Home{
 		$info['pass_check'] = F3::get('POST.upass_check'); //TODO check pass
 		$info['phone'] = F3::get('POST.uphone');
 		$info['type'] = F3::get('POST.ugroup');
+		//Code::dump($info);
 
 		$uid = User::signUp($info);
 
