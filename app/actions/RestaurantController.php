@@ -46,13 +46,13 @@ class RestaurantController{
 
 	function notifyUser(){
 		// phone
-		$user = F3::get("GET.id");
+		$user = F3::get("POST.id");
 		Queue::notify($user);
 		F3::reroute("/admin");
 	}
 
 	function customerArrive(){
-		$user = F3::get("GET.id");
+		$user = F3::get("POST.id");
 		Queue::arrive($user);
 		F3::reroute("/admin");
 	}

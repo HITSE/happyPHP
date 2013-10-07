@@ -32,9 +32,9 @@ class CustomerController{
 
 
 	function addQueue(){
-		$rid = F3::get("GET.rid");
-		$phone = F3::get("GET.phone");
-		$num = F3::get("GET.num");
+		$rid = F3::get("POST.rid");
+		$phone = F3::get("POST.phone");
+		$num = F3::get("POST.num");
 		$r = Queue::addItem($rid, $phone, $num);
 		F3::reroute("/user/list?a=$r");
 	}
@@ -140,20 +140,25 @@ class CustomerController{
 		echo json_encode($a);
 	}
 	//add
-	function inquireInfo(){
-		$uid=F3::get("COOKIE.se_user_id");
-		$u=User::getUserInfo($uid);
-		F3::set("uname", $u[0]['name']);
-		$phone=F3::get("COOKIE.se_user_name");
-		$order = F3::get("GET.uorder");
+	function toinquire(){
+		$order = F3::get("POST.uorder");
 		if($order=="cancel")
 		{
+			$phone=F3::get("COOKIE.se_user_name");
 			$s=Queue::getUserStatus($phone);
 			$qid=$s[0]['qid'];
 			if($s[0]['status'] == 'smsed')
 				Queue::notice_rest_of_canceled($s);
 			Queue::cancelBook($qid);
 		}
+		F3::reroute("/user/inquiry");
+	}
+
+	function inquireInfo(){
+		$uid=F3::get("COOKIE.se_user_id");
+		$u=User::getUserInfo($uid);
+		F3::set("uname", $u[0]['name']);
+		$phone=F3::get("COOKIE.se_user_name");
 		$s=Queue::getUserStatus($phone);
 		$rName="无";
 		if($s==false)
