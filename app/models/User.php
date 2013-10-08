@@ -22,6 +22,8 @@ class User{
 	//根据info数组插入数据表,并执行登录操作
 	static function signUp($info){
 		//var_dump($info);
+		if($info['pass'] !== $info['pass_check'])
+			return -1;
 		if(self::exist("name", $info['name'], "user"))
 			return -2;
 		$r = DB::sql("INSERT INTO user VALUES ('', :uname, :upass);",
@@ -37,9 +39,22 @@ class User{
 			$r = DB::sql("INSERT INTO customer VALUES (:phone, :point, :uid);",
 				array(':phone' => $info['phone'] , ':point' => '0', ':uid' => $uid)
 			);
+			//Code::dump($r);
 		}
 		self::login(array('uid' => $uid, 'name' => $info['name']));
 		return $uid;
+	}
+
+	static function changepass($info){
+		if($info['new_pass'] !== $info['new_pass_check'])
+			return -1;
+		$old_right_pass=DB::sql("SELECT passwd FROM user WHERE uid = :uid",
+			array( ':uid' => $info['uid'] ));
+		if($old_right_pass[0]['passwd'] !== $info['old_pass'])
+			return -2;
+
+		$r = DB::sql("UPDATE user SET passwd = :new_pass WHERE uid = :uid", array(':new_pass' => $info['new_pass'], ':uid' => $info['uid']));
+		return 0;
 	}
 
 	static function valid($uname, $upass){
@@ -123,6 +138,13 @@ class User{
 	static function validate_login_token($uid, $token){
 		$valid = self::generate_login_token($uid);
 		return $token == $valid;
+	}
+	//add
+	static function getUserInfo($uid){
+		$sql = "SELECT * FROM user WHERE uid = $uid";
+		//$u=DB::sql('SELECT * FROM user WHERE uid = :uid');
+		$u=DB::sql($sql);
+		return $u;
 	}
 
 }

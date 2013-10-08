@@ -15,6 +15,8 @@ class RestaurantController{
 		}
 		F3::set('route', 'admin');
 		F3::set('admin', 'true');
+		if(Admin::is_rest_signed()!==false)
+			F3::set('rest_signed', 'true');
 	}
 
 	function method(){
@@ -22,10 +24,8 @@ class RestaurantController{
 	}
 
 	function listQueue(){
-		$rida = F3::get("COOKIE");
-		//Code::dump($rida);
-		$rid = $rida['se_user_admin'];
-		if($rid == 0)
+		$rid=Admin::is_rest_signed();
+		if($rid===false)
 			F3::reroute("/admin/signup");
 
 		$all = Queue::getAll($rid);
@@ -46,13 +46,13 @@ class RestaurantController{
 
 	function notifyUser(){
 		// phone
-		$user = F3::get("GET.id");
+		$user = F3::get("POST.id");
 		Queue::notify($user);
 		F3::reroute("/admin");
 	}
 
 	function customerArrive(){
-		$user = F3::get("GET.id");
+		$user = F3::get("POST.id");
 		Queue::arrive($user);
 		F3::reroute("/admin");
 	}

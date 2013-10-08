@@ -12,8 +12,7 @@ class Table{
 			//Code::dump($b);
 			$c = $b[0];
 			$n = $b[1];
-			$sql = "INSERT INTO `table` VALUES ('$rid', '$c', 0, '$n')";
-			DB::sql($sql);
+			DB::sql("INSERT INTO `table` VALUES (:rid, :c, 0, :n)", array(':rid' => $rid, ':c' => $c, ':n' => $n));
 		}
 	}
 

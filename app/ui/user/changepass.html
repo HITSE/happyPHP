@@ -7,22 +7,15 @@
 
 					<h3>修改密码</h3>
 
-		<F3:check if="{{@GET.has_submit}}">
-			<F3:check if="{{@GET.success}}">
-				<F3:true>
-					<div class="alert alert-success" style="display:">
-						<button class="close" data-dismiss="alert">&times;</button>
-						<h4 class="alert-heading">操作成功！</h4>
-				</F3:true>
-				<F3:false>
-					<div class="alert alert-error">
-						<button class="close" data-dismiss="alert">&times;</button>
-						<h4 class="alert-heading">操作失败！</h4>
-				</F3:false>
-			</F3:check>
-						<p>{{@GET.msg}}</p>
-					</div>
-		</F3:check>
+					<F3:check if="{{@has_submit}}">
+							<F3:true>
+								<div class="alert alert-error">
+									<button class="close" data-dismiss="alert">&times;</button>
+									<h4 class="alert-heading">操作失败！</h4>
+									<p>{{@msg}}</p>
+								</div>
+							</F3:true>
+					</F3:check>
 
 					<div class="control-group">
 						<label class="control-label">旧密码</label>
@@ -38,10 +31,18 @@
 						</div>
 					</div>
 
+					<div class="control-group">
+						<label class="control-label">确认新密码</label>
+						<div class="controls">
+							<input name="new_pass_check" type="password" class="span3" maxlength="32" placeholder="请再次输入新密码" required>
+						</div>
+					</div>
+
+
 					<div class="form-actions">
 						<div class="controls btn-groups">
-							<button type="submit" class="btn btn-primary">修改密码</button>
-							<button type="reset" class="btn">重填</button>
+							<button type="submit" class="btn btn-danger">修改密码</button>
+							<input type="reset" class="btn">
 						</div>
 					</div>
 

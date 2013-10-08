@@ -36,7 +36,7 @@ function showTime() {
 
 	setTimeout('showTime()',1000);
 }
-setTimeout('myrefresh()',5000); //指定10秒刷新一次
+setTimeout('myrefresh()',15000); //指定15秒刷新一次
 </script>
 
 	<div class="container">
@@ -86,8 +86,14 @@ setTimeout('myrefresh()',5000); //指定10秒刷新一次
 							<td>{{@v.num}}</td>
 							<td>{{@v.phone}}</td>
 							<td>
-								<a style="{{ @v.status == 'queuing' ? '' : 'display:none'}}" href="{{@WEB_ROOT}}admin/notify?id={{@v.phone}}" class="btn btn-primary">通知</a>
-								<a style="{{ @v.status == 'smsed' ? '' : 'display:none'}}" href="{{@WEB_ROOT}}admin/arrive?id={{@v.phone}}" class="btn btn-success">到达</a>
+								<form action="{{@WEB_ROOT}}admin/notify" method="post">
+									<input type="hidden" name="id" value="{{@v.phone}}">
+									<input type="{{ @v.status == 'queuing' ? 'submit' : 'hidden'}}" class="btn btn-primary" value="通知">
+								</form>
+								<form action="{{@WEB_ROOT}}admin/arrive" method="post">
+									<input type="hidden" name="id" value="{{@v.phone}}">
+									<input type="{{ @v.status == 'smsed' ? 'submit' : 'hidden'}}" class="btn btn-success" value="到达">
+								</form>
 							</td>
 						</tr>
 					</F3:repeat>

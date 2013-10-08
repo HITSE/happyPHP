@@ -18,18 +18,23 @@ class CustomerController{
 		if(User::is_login()){
 			F3::set("login", "true");
 			F3::set("title", "我要排队");
+			if(User::is_admin()!==false){
+				F3::set("admin","true");
+				if(Admin::is_rest_signed()!==false)
+					F3::set('rest_signed', 'true');
+			}
 		}
 		//}else{
 			//F3::reroute('/login');
 		//}
-		F3::set('route', 'user');
+		F3::set('route', 'user/list');
 	}
 
 
 	function addQueue(){
-		$rid = F3::get("GET.rid");
-		$phone = F3::get("GET.phone");
-		$num = F3::get("GET.num");
+		$rid = F3::get("POST.rid");
+		$phone = F3::get("POST.phone");
+		$num = F3::get("POST.num");
 		$r = Queue::addItem($rid, $phone, $num);
 		F3::reroute("/user/list?a=$r");
 	}
@@ -134,6 +139,94 @@ class CustomerController{
 		$a = array($r);
 		echo json_encode($a);
 	}
+	//add
+	function toinquire(){
+		$order = F3::get("POST.uorder");
+		if($order=="cancel")
+		{
+			$phone=F3::get("COOKIE.se_user_name");
+			$s=Queue::getUserStatus($phone);
+			$qid=$s[0]['qid'];
+			if($s[0]['status'] == 'smsed')
+				Queue::notice_rest_of_canceled($s);
+			Queue::cancelBook($qid);
+		}
+		F3::reroute("/user/inquiry");
+	}
+
+	function inquireInfo(){
+		$uid=F3::get("COOKIE.se_user_id");
+		$u=User::getUserInfo($uid);
+		F3::set("uname", $u[0]['name']);
+		$phone=F3::get("COOKIE.se_user_name");
+		$s=Queue::getUserStatus($phone);
+		$rName="无";
+		if($s==false)
+		{
+			$status="未参加排队";
+			$num=0;
+			F3::set("cancel","ucancel");;
+			F3::set("ucancelName","无效");
+			F3::set("rname","无");
+			F3::set("unum",$num);
+		}
+		else
+		{
+			$rid=$s[0]['rid'];
+			$rName=Restaurant::getName($rid);
+			$num=$s[0]['num'];
+			switch ($s[0]['status']) {
+				case 'queuing':
+					$status="排队中";
+					F3::set("cancel","cancel");
+					F3::set("ucancelName","撤销");
+					F3::set("rname",$rName);
+					F3::set("unum",$num);
+					break;
+				case 'arrived':
+					$status="已到达";
+					F3::set("cancel","ucancel");
+					F3::set("ucancelName","无效");
+					F3::set("rname",$rName);
+					F3::set("unum",$num);
+					break;
+				case 'finshed':
+					$status="已过期";
+					F3::set("cancel","ucancel");
+					F3::set("ucancelName","无效");
+					F3::set("rname","无");
+					F3::set("unum",0);
+					break;
+				case 'smsed':
+					$status="排队消息已发送";
+					F3::set("cancel","cancel");
+					F3::set("ucancelName","撤销");
+					F3::set("rname",$rName);
+					F3::set("unum",$num);
+					break;
+				case 'quited':
+					$status="排队已撤销";
+					F3::set("cancel","ucancel");
+					F3::set("ucancelName","无效");
+					F3::set("rname","无");
+					F3::set("unum",0);
+					break;
+				default:
+					$status="未参加排队";
+					F3::set("cancel","ucancel");
+					F3::set("ucancelName","无效");
+					F3::set("rname","无");
+					F3::set("unum",0);
+					break;
+			}
+		}
+		
+		F3::set("ustatus", $status);
+		F3::set('route', 'user/inquiry');
+		F3::set("title", "查询&撤销");
+		echo Template::serve('user/inquiry.html');
+	}
+	//add
 
 
 }

@@ -1,0 +1,17 @@
+{"mysql-5.1":[
+    {
+        "name":"mysql-4f700",
+        "label":"mysql-5.1",
+        "plan":"free",
+        "tags":["mysql","mysql-5.1","relational"],
+        "credentials":{
+            "name":"happy",
+            "hostname":"127.0.0.1",
+            "host":"127.0.0.1",
+            "port":3306,
+            "user":"root",
+            "username":"root",
+            "password":"vpcm"
+        }
+    }
+]}

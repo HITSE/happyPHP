@@ -1,0 +1,68 @@
+<F3:include href="common/header.html" />
+
+<div id="ready" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">确认撤销?</h3>
+	</div>
+	<div class="modal-body">
+			<div class="control-group">
+				<p>若撤销后又排同一队列, 则又回到队尾.</p>
+			</div>
+	</div>
+	<div class="modal-footer">
+		<form action="{{@WEB_ROOT}}user/inquiry" method="post">
+			<input type="hidden" name="uorder" value="cancel">
+			<input type="submit" class="btn btn-primary" value="确认">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+		</form>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="span8 offset2">
+
+			<div style="position:relative;zoom:1">
+				<h3>当前状态</h3>
+			</div>
+
+			<table class="table table-bordered table-striped">
+				<thead>
+				</thead>
+				<tbody>
+					<tr>
+						<td width="25%">用&nbsp;户&nbsp;名&nbsp;: </th>
+						<td>{{@uname}}</th>
+					</tr>
+					<tr>
+						<td>排队状态：</td>
+						<td>{{@ustatus}}</td>
+					</tr>
+					<tr>
+						<td>餐厅名称：</td>
+						<td>{{@rname}}</td>
+					</tr>
+					<tr>
+						<td>定餐人数：</td>
+						<td>{{@unum}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<F3:check if="{{@cancel == 'cancel'}}">
+				<F3:true>
+			<div class="row">
+				<div class="span6 offset2">
+					<a href="#ready" role="button" class="btn btn-danger btn-large" data-toggle="modal">撤销排队</a>
+					<a href="{{@WEB_ROOT}}" class="btn btn-large">继续排队</a>
+				</div>
+			</div>
+				</F3:check>
+			</F3:check>
+		</div>
+	</div>
+</div>
+
+<F3:include href="common/footer.html" />
+
